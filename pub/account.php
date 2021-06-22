@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>View</title>
+<title>Account</title>
 </head>
 <body>
 
