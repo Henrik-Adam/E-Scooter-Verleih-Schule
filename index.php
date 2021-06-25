@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../css/main_page.css">
+    <link rel="stylesheet" href="/css/main_page.css">
+    <link rel="stylesheet" href="/css/messages_style.css">
+    <link rel="stylesheet" href="/css/global.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8"> 
-    <title>Index</title>
+    <title>Home</title>
 </head>
 <body>
 
 <div class="nav">
-    <a href="#home" class="active">Home</a>
+    <a href="index.php" class="active">Home</a>
     <a href="#search">Produkte</a>
     <a href="#search">Account</a>
 </div>
-
-<div style="padding-left:16px">
-  <h2>Responsive Top Navigation with Centered and Right-Aligned Links</h2>
-  <p>Resize the browser window to see the responsive effect.</p>
+<div class="main_page_items">
+    <div class="info_div">
+    <div class="info_image">
+    </div>
+    <div>
+    </div class="info_text">
+    </div>
 </div>
+
+<footer>
+  <p>Author: Hege Refsnes</p>
+  <p><a href="mailto:hege@example.com">hege@example.com</a></p>
+</footer>
 
 </body>
 </html>

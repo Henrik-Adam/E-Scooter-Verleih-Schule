@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
