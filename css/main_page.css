@@ -44,7 +44,18 @@
     padding: 14px 28px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #04AA6D;
+    font-weight: bold;
+    background-color: navy;
+}
+
+.button:hover {
+    background-color: #03037a;
+    color: white;
+    font-weight: bolder;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 img {
