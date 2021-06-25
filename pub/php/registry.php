@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $userPwd = testInput($_POST["password"]);
   $userConfirmedPwd = testInput($_POST["confirmedPassword"]);
   if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1") {
-    userValidation($conn, $userName, $userPwd, $cookieConfirm);
+    userValidation($userName, $userPwd, $cookieConfirm);
   } elseif(strlen($userPwd) <= 5 && strlen($userConfirmedPwd) <= 5) {
     echo("<div class='warning'>WARNING! The passwords are to short to be secure. Please use a longer password.</div>");
   } elseif($userPwd != $userConfirmedPwd) {
@@ -36,48 +36,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
 } else echo("<div class='info'>INFO! Please Sign up!</div>");
 
-function checkIfUserExist($conn, $userName) {
-  $sqlUser = "SELECT user_name FROM db_user_reg WHERE user_name= '%s'";
-  $sqlUser = sprintf($sqlUser, $conn->real_escape_string($userName));
-  $resultUser = $conn->query($sqlUser);
-  $userArray = $resultUser->fetch_assoc();
-  if(empty($userArray)) {
-    return true;
-  } else {
-    return false; 
+function checkIfUserExist($userName) {
+  $file = fopen("../../file_save/user-data.json", "r");
+  $file = fread($file, filesize($file));
+  if(!empty($file)) {
+    $jsonArr = json_decode($file, true);
+  }
+  $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
+  if(!empty($jsonArr)) {
+    foreach($jsonArr as $outArr) {
+      if(in_array($userName, $outArr["userName"])) {
+        fclose($file);
+        return false;
+      } else {
+        fclose($file);
+        return true;
+      }
+    }
+  } else { 
+      fclose($file);
+      return true;
   }
 }
 
-function userValidation($conn, $userName, $userPwd, $cookieConfirm) {
-  if(checkIfUserExist($conn, $userName)) {
+function userValidation($userName, $userPwd, $cookieConfirm) {
+  if(checkIfUserExist($userName)) {
     $cryptKey = generateCryptKey($userPwd);
     $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
-    //$currentTimestamp = date("j-n-Y H:i:s");
-    $stmt = $conn->prepare("INSERT INTO db_user_reg (user_name, user_pwd, user_crypt, user_cookie_agb, user_time_create) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $userName, $userPwd, $cryptKey, $cookieConfirm, $currentTimestamp);
-    if ($stmt->execute() === TRUE) {
-      setUserSession($conn, $userName, $cryptKey);
+    $file = fopen("../../file_save/user-data.json", "a+");
+    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
+    $userId = 1;
+    $userData = ["name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "userId" => $userId];
+    $jsonStr = json_encode($userData);
+    if (strlen($jsonStr) == 0) {
+      $_SESSION['welcome_id'] = 3;
+      fwrite($file, $jsonStr);
+      fclose($file);
       logReg($userName);
-      header("Location: http://localhost/pwd_overview.php");
+      header("Location: http://localhost/pub/php/login.php");
     } else {
-      echo "<div class='error'>Error: " . $stmt . "</div><br>" . $conn->error;
-      logRegFail($userName, $stmt, $conn->error);
+      echo "<div class='error'>Error: " . $userData . "</div><br>" . json_last_error_msg();
+      logRegFail($userName, $userData, json_last_error_msg());
     }
   } else {
     echo "<div class='error'>User already exist!</div>";
   }
-}
-
-function setUserSession($conn, $userName, $cryptKey) {
-  $sqlUser = "SELECT user_id FROM db_user_reg WHERE user_name= '%s'";
-  $sqlUser = sprintf($sqlUser, $conn->real_escape_string($userName));
-  $resultUser = $conn->query($sqlUser);
-  $userArray = $resultUser->fetch_assoc();
-  $userId = $userArray["user_id"];
-  $_SESSION['user_name'] = $userName;
-  $_SESSION['user_id'] = $userId;
-  $_SESSION['crypt_key'] = $cryptKey;
-  $_SESSION['welcome_id'] = 3;
 }
 
 function generateCryptKey($userPwd) {
@@ -87,12 +90,12 @@ function generateCryptKey($userPwd) {
   return $cryptKey;
 }
 
-function logRegFail($userName, $sqlInsert, $error) {
+function logRegFail($userName, $data, $error) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
-  $log_file_reg = fopen("logs/log_reg_fail.txt", "a+");
+  $log_file_reg = fopen("../../logs/log_reg_fail.txt", "a+");
   $log_msg = "User: %s,Date: %s,Time: %s, %s, %s\n";
-  $log_msg = sprintf($log_msg,$userName, $date, $time, $sqlInsert, $error);
+  $log_msg = sprintf($log_msg,$userName, $date, $time, $data, $error);
   fwrite($log_file_reg, $log_msg);
   fclose($log_file_reg);
 }
@@ -100,13 +103,19 @@ function logRegFail($userName, $sqlInsert, $error) {
 function logReg($userName) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
-  $log_file_reg = fopen("logs/log_reg.txt", "a+");
+  $log_file_reg = fopen("../../logs/log_reg.txt", "a+");
   $log_msg = "User: %s,Date: %s,Time: %s\n";
   $log_msg = sprintf($log_msg,$userName, $date, $time);
   fwrite($log_file_reg, $log_msg);
   fclose($log_file_reg);
 }
 ?>
+    <div class="nav-parent">
+        <div class="nav">
+            <a href="../../index.php">Home</a>
+            <a href="/pub/php/account.php">Account</a>
+        </div>
+    </div>
 
     <div class="user-login-form">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
@@ -126,6 +135,14 @@ function logReg($userName) {
             </div>
         </form>
     </div>
-
+    <footer>
+        <div>
+            <a href="#search">Impressum</a>
+            <a href="#search">Datenschutz</a>
+            <a href="#search">AGB</a>
+            <a href="#search">Support</a>
+            <a href="#search">Logout</a>
+        </div>
+    </footer>
 </body>
 </html>

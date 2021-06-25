@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 function decryptKey() {
   $cryptKey = $_SESSION['user_crypt'];
   $key = base64_decode($cryptKey);
