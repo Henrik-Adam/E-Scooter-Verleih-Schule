@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/main_page.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/messages_style.css">
     <link rel="stylesheet" href="/css/global.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,8 +26,12 @@
 </div>
 
 <footer>
-  <p>Author: Hege Refsnes</p>
-  <p><a href="mailto:hege@example.com">hege@example.com</a></p>
+    <div>
+        <a href="#search">Impressum</a>
+        <a href="#search">AGB</a>
+        <a href="#search">Datenschutz</a>
+        <a href="#search">Logout</a>
+    </div>
 </footer>
 
 </body>
