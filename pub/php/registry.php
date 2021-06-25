@@ -4,17 +4,19 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/login_Registry_Style.css">
-    <link rel="stylesheet" href="css/messages_Style.css">
-    <meta charset="utf-8"> 
-    <title>Pwd-Manager Sign Up</title>
+<link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="/css/login_system.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Registrieren</title>
 </head>
 <body>
 
 <?php
-require('logic/db_connection.php');
-require('logic/support_logic.php');
-require('logic/config.php');
+
+require('support_logic.php');
 
 $userName = $userPwd = $userConfirmedPwd = "";
 
@@ -106,7 +108,7 @@ function logReg($userName) {
 }
 ?>
 
-    <div class="userForm">
+    <div class="user-login-form">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="user_name">Name</label>
             <input type="text" id="user_name" name="name" placeholder="Your Username">
@@ -117,7 +119,7 @@ function logReg($userName) {
             <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
             <label for="cookie_confirm">AGB & Cookie Confirmation</label>
             <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> both have to be accepted in order to use our service.</div>
-            <div class="flexUserForm">
+            <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
               <button><a href="index.php">Sign In</a></button>

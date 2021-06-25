@@ -28,3 +28,17 @@ footer div a {
     color: white;
     text-decoration: none;
 }
+
+.button {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: navy;
+}
+
+* {
+    box-sizing: border-box;
+}

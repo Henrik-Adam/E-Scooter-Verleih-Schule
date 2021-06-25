@@ -1,0 +1,78 @@
+input[type=text],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit],
+input[type=reset] {
+    width: 30%;
+    background-color: #000099;
+    color: white;
+    font-weight: bolder;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover,
+input[type=reset]:hover {
+    background-color: #03037a;
+    border-color: #ccc;
+    border-width: 1px;
+}
+
+.user-login-form {
+    width: 75%;
+    border-radius: 5px;
+    padding: 20px;
+    margin: auto;
+}
+
+.flex-user-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #000099;
+    width: 30%;
+    font-weight: bolder;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #03037a;
+}
+
+a {
+    text-decoration: none;
+    text-align: center;
+    color: white;
+}
+
+.nav-parent {
+    position: relative;
+}

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/main_page.css">
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/messages_style.css">
+    <link rel="stylesheet" href="/css/notifications.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Home</title>

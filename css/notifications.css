@@ -1,26 +1,33 @@
-.info, .success, .warning, .error {
+.info,
+.success,
+.warning,
+.error {
     width: 95%;
-    padding: 10px 10px;
+    padding: 1% 1%;
     margin-bottom: 1%;
+    margin: auto;
     margin-top: 1%;
     border-radius: 5px;
     font-weight: bold;
     font-size: medium;
-  
-  }
-  .info {
+}
+
+.info {
     color: #00529B;
     background-color: #BDE5F8;
-  }
-  .success {
+}
+
+.success {
     color: #4F8A10;
     background-color: #DFF2BF;
-  }
-  .warning {
+}
+
+.warning {
     color: #9F6000;
     background-color: #FEEFB3;
-  }
-  .error {
+}
+
+.error {
     color: #D8000C;
     background-color: #FFD2D2;
-  }
+}
