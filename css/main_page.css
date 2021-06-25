@@ -1,0 +1,42 @@
+/* Nav */
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav {
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.nav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    background-color: white;
+    color: black;
+}
+
+.nav a.active {
+    background-color: white;
+    color: black;
+}
+
+
+/* Responsive navigation menu (for mobile devices) */
+
+@media screen and (max-width: 600px) {
+    .nav {
+        flex-direction: column;
+    }
+}
