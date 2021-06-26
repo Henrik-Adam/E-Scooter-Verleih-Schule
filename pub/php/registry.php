@@ -37,46 +37,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else echo("<div class='info'>INFO! Please Sign up!</div>");
 
 function checkIfUserExist($userName) {
-  $file = fopen("../../file_save/user-data.json", "r");
-  $file = fread($file, filesize($file));
-  if(!empty($file)) {
-    $jsonArr = json_decode($file, true);
-  }
-  $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
-  if(!empty($jsonArr)) {
+  $data = file_get_contents("../../file_save/user-data.json");
+  if(!empty($data)) {
+    $jsonArr = json_decode($data, true);
+    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     foreach($jsonArr as $outArr) {
-      if(in_array($userName, $outArr["userName"])) {
-        fclose($file);
-        return false;
-      } else {
-        fclose($file);
+      if($userName == $outArr["user_name"]) {
         return true;
       }
     }
   } else { 
-      fclose($file);
-      return true;
+      return false;
   }
 }
 
 function userValidation($userName, $userPwd, $cookieConfirm) {
-  if(checkIfUserExist($userName)) {
+  if(!checkIfUserExist($userName)) {
     $cryptKey = generateCryptKey($userPwd);
     $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
-    $file = fopen("../../file_save/user-data.json", "a+");
+    $file = "../../file_save/user-data.json";
+    $data = file_get_contents("../../file_save/user-data.json");
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
-    $userId = 1;
-    $userData = ["name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "userId" => $userId];
-    $jsonStr = json_encode($userData);
-    if (strlen($jsonStr) == 0) {
+    $jsonArr = json_decode($data, true);
+    $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
+    $jsonArr[] = ["user_name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_Id" => $userId];
+    $jsonStr = json_encode($jsonArr);
+    if (strlen($jsonStr) != 0) {
       $_SESSION['welcome_id'] = 3;
-      fwrite($file, $jsonStr);
-      fclose($file);
+      file_put_contents($file, $jsonStr);
       logReg($userName);
-      header("Location: http://localhost/pub/php/login.php");
+      //header("Location: http://localhost/pub/php/login.php");
     } else {
-      echo "<div class='error'>Error: " . $userData . "</div><br>" . json_last_error_msg();
-      logRegFail($userName, $userData, json_last_error_msg());
+      echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
+      logRegFail($userName, json_last_error_msg());
     }
   } else {
     echo "<div class='error'>User already exist!</div>";
@@ -90,12 +83,12 @@ function generateCryptKey($userPwd) {
   return $cryptKey;
 }
 
-function logRegFail($userName, $data, $error) {
+function logRegFail($userName, $error) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
   $log_file_reg = fopen("../../logs/log_reg_fail.txt", "a+");
-  $log_msg = "User: %s,Date: %s,Time: %s, %s, %s\n";
-  $log_msg = sprintf($log_msg,$userName, $date, $time, $data, $error);
+  $log_msg = "User: %s,Date: %s,Time: %s,  %s\n";
+  $log_msg = sprintf($log_msg,$userName, $date, $time, $error);
   fwrite($log_file_reg, $log_msg);
   fclose($log_file_reg);
 }
