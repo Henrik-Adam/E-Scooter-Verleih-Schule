@@ -44,7 +44,7 @@ function userValidation($userName, $userPwd) {
             $userData = $outArr;
         }
     }
-    $userId = $userData["user_Id"];
+    $userId = $userData["user_id"];
     $hash = $userData["user_pwd"];
     $userCrypt = $userData["user_crypt"];
       
