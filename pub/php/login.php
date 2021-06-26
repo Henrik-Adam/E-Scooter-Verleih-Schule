@@ -18,8 +18,6 @@ session_start();
 
 require('support_logic.php');
 
-var_dump( $_SESSION["user_id"]);
-
 $userName = $userPwd = "";
 
 
