@@ -66,7 +66,7 @@ function userValidation($userName, $userPwd, $cookieConfirm) {
       $_SESSION['welcome_id'] = 3;
       file_put_contents($file, $jsonStr);
       logReg($userName);
-      //header("Location: http://localhost/pub/php/login.php");
+      header("Location: http://localhost/pub/php/login.php");
     } else {
       echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
       logRegFail($userName, json_last_error_msg());
@@ -124,7 +124,7 @@ function logReg($userName) {
             <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button><a href="index.php">Sign In</a></button>
+              <button class="button"><a href="index.php">Sign In</a></button>
             </div>
         </form>
     </div>
