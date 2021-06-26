@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -7,6 +7,7 @@
 <head>
     <link rel="stylesheet" href="/css/main_page.css">
     <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/notifications.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +15,11 @@
     <title>Home</title>
 </head>
 <?php
-    $userId = $_SESSION['user_id'];
-    var_dump($userId);
-    echo($userId);
+$userId = $_SESSION['user_id'];
+var_dump($userId);
+echo ($userId);
 ?>
+
 <body>
     <div class="nav-parent">
         <div class="nav">
@@ -47,13 +49,57 @@
                 <h1 class="large-font" style="color:navy;"><b>SOFLOW - SO1 E-Scooter</b></h1>
                 <p>Der SO1 verfügt über einen 300 Watt Motor und hat eine Reichweite von bis zu 12 Kilometern. Seine maximale Geschwindigkeit endet bei 20 km/h. Der Scooter bewältigt auch Steigungen von max. 5 % mühelos. Er verfügt über eine elektrische
                     Vorderrad- und eine mechanische Hinterradbremse, und ist ausgestattet mit einem Vorderlicht und einem Bremslicht.</p>
-                <button class="button">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
                 <img src="/img/pics/escooter.jpg" width="335" height="471">
             </div>
         </div>
     </div>
+
+    <div id="reservationForm" class="modal">
+        <span onclick="document.getElementById('reservationForm').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form class="modal-content" action="/action_page.php">
+            <div class="container">
+                <h1>Reserveriungsformular</h1>
+                <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
+                <hr>
+                <label for="name"><b>Name</b></label>
+                <input type="text" placeholder="Name" name="name" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Email" name="email" required>
+
+                <label for="postal-road"><b>Straße und Hausnummer</b></label>
+                <input type="text" placeholder="Straße" name="postal-road" required>
+
+                <label for="postal-nr"><b>PLZ</b></label>
+                <input type="number" placeholder="Postleitzahl" name="postal-nr" required>
+
+                <label for="city"><b>Stadt</b></label>
+                <input type="text" placeholder="Stadt" name="city" required>
+
+                <label for="e-type"><b>E-Scooter Typ</b></label>
+                <select id="e-type" name="e-type">
+                    <option value="casual">Casual SOFLOW - SO1 E-Scooter</option>
+                    <option value="offroad">Offroad VIRON E-Scooter</option>
+                    <option value="ftl">FTL SXT Compact Ultimate</option>
+                </select>
+                <label for="res-day-start"><b>Reservierungszeitraum</b></label>
+                <div class="flex">
+                    <input type="date" id="res-day-start" name="res-day-start">
+                    <p> bis zum </p>
+                    <input type="date" id="res-day-end" name="res-day-end">
+                </div>
+                <div class="flex">
+                    <button type="submit" class="btn">Reservieren</button>
+                    <button type="reset" class="btn">Reset</button>
+                    <button type="button" onclick="document.getElementById('reservationForm').style.display='none'" class="cancelbtn">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
@@ -64,7 +110,7 @@
                 <h1 class="large-font" style="color:navy;"><b>VIRON E-Scooter</b></h1>
                 <p>Der Elektro- Scooter - "VIRON" ist mit einem Kraftvollen 1000 Watt Elektromotor ausgestattet. Das 36 Volt Akkupaket, bestehend aus drei 12 Volt Akkus mit je 12 Ah, bringt den Scooter mit nur einer Akkuladung in Abhängigkeit der Geländebeschaffenheit
                     auf eine Reichweite von bis zu 30 Kilometern. Die Ladedauer beträgt ca. 6-7 Stunden.</p>
-                <button class="button">Zur Reservierung</button>
+                    <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
         </div>
     </div>
@@ -76,7 +122,7 @@
                 <h1 class="large-font" style="color:navy;"><b>SXT Compact Ultimate</b></h1>
                 <p>Wenn es um Geschwindigkeit geht, lässt der SXT Compact Ultimate die meisten seiner Konkurrenten weit hinter sich. Mit 40 km/h ist er einer der schnellsten E-Scooter, die auf dem Markt erhältlich sind. Ein weiterer Pluspunkt ist seine enorme
                     Reichweite von ganzen 50 km.</p>
-                <button class="button">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
                 <img src="/img/pics/escoouterFast.jpg" width="500" height="500">
@@ -111,7 +157,7 @@
             </div>
         </div>
     </footer>
-
+    <script src="/js/modal_forms.js"></script>
 </body>
 
 </html>
