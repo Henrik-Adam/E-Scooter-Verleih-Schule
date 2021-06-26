@@ -4,17 +4,19 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/login_Registry_Style.css">
-    <link rel="stylesheet" href="css/messages_Style.css">
-    <meta charset="utf-8"> 
-    <title>Pwd-Manager Sign Up</title>
+<link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="/css/login_system.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Registrieren</title>
 </head>
 <body>
 
 <?php
-require('logic/db_connection.php');
-require('logic/support_logic.php');
-require('logic/config.php');
+
+require('support_logic.php');
 
 $userName = $userPwd = $userConfirmedPwd = "";
 
@@ -24,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $userPwd = testInput($_POST["password"]);
   $userConfirmedPwd = testInput($_POST["confirmedPassword"]);
   if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1") {
-    userValidation($conn, $userName, $userPwd, $cookieConfirm);
+    userValidation($userName, $userPwd, $cookieConfirm);
   } elseif(strlen($userPwd) <= 5 && strlen($userConfirmedPwd) <= 5) {
     echo("<div class='warning'>WARNING! The passwords are to short to be secure. Please use a longer password.</div>");
   } elseif($userPwd != $userConfirmedPwd) {
@@ -34,48 +36,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
 } else echo("<div class='info'>INFO! Please Sign up!</div>");
 
-function checkIfUserExist($conn, $userName) {
-  $sqlUser = "SELECT user_name FROM db_user_reg WHERE user_name= '%s'";
-  $sqlUser = sprintf($sqlUser, $conn->real_escape_string($userName));
-  $resultUser = $conn->query($sqlUser);
-  $userArray = $resultUser->fetch_assoc();
-  if(empty($userArray)) {
-    return true;
-  } else {
-    return false; 
+function checkIfUserExist($userName) {
+  $data = file_get_contents("../../file_save/user-data.json");
+  if(!empty($data)) {
+    $jsonArr = json_decode($data, true);
+    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
+    foreach($jsonArr as $outArr) {
+      if($userName == $outArr["user_name"]) {
+        return true;
+      }
+    }
+  } else { 
+      return false;
   }
 }
 
-function userValidation($conn, $userName, $userPwd, $cookieConfirm) {
-  if(checkIfUserExist($conn, $userName)) {
+function userValidation($userName, $userPwd, $cookieConfirm) {
+  if(!checkIfUserExist($userName)) {
     $cryptKey = generateCryptKey($userPwd);
     $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
-    //$currentTimestamp = date("j-n-Y H:i:s");
-    $stmt = $conn->prepare("INSERT INTO db_user_reg (user_name, user_pwd, user_crypt, user_cookie_agb, user_time_create) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $userName, $userPwd, $cryptKey, $cookieConfirm, $currentTimestamp);
-    if ($stmt->execute() === TRUE) {
-      setUserSession($conn, $userName, $cryptKey);
+    $file = "../../file_save/user-data.json";
+    $data = file_get_contents($file);
+    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
+    $jsonArr = json_decode($data, true);
+    $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
+    $jsonArr[] = ["user_name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_Id" => $userId];
+    $jsonStr = json_encode($jsonArr);
+    if (strlen($jsonStr) != 0) {
+      file_put_contents($file, $jsonStr);
       logReg($userName);
-      header("Location: http://localhost/pwd_overview.php");
+      header("Location: http://localhost/pub/php/login.php");
     } else {
-      echo "<div class='error'>Error: " . $stmt . "</div><br>" . $conn->error;
-      logRegFail($userName, $stmt, $conn->error);
+      echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
+      logRegFail($userName, json_last_error_msg());
     }
   } else {
     echo "<div class='error'>User already exist!</div>";
   }
-}
-
-function setUserSession($conn, $userName, $cryptKey) {
-  $sqlUser = "SELECT user_id FROM db_user_reg WHERE user_name= '%s'";
-  $sqlUser = sprintf($sqlUser, $conn->real_escape_string($userName));
-  $resultUser = $conn->query($sqlUser);
-  $userArray = $resultUser->fetch_assoc();
-  $userId = $userArray["user_id"];
-  $_SESSION['user_name'] = $userName;
-  $_SESSION['user_id'] = $userId;
-  $_SESSION['crypt_key'] = $cryptKey;
-  $_SESSION['welcome_id'] = 3;
 }
 
 function generateCryptKey($userPwd) {
@@ -85,12 +82,12 @@ function generateCryptKey($userPwd) {
   return $cryptKey;
 }
 
-function logRegFail($userName, $sqlInsert, $error) {
+function logRegFail($userName, $error) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
-  $log_file_reg = fopen("logs/log_reg_fail.txt", "a+");
-  $log_msg = "User: %s,Date: %s,Time: %s, %s, %s\n";
-  $log_msg = sprintf($log_msg,$userName, $date, $time, $sqlInsert, $error);
+  $log_file_reg = fopen("../../logs/log_reg_fail.txt", "a+");
+  $log_msg = "User: %s,Date: %s,Time: %s,  %s\n";
+  $log_msg = sprintf($log_msg,$userName, $date, $time, $error);
   fwrite($log_file_reg, $log_msg);
   fclose($log_file_reg);
 }
@@ -98,15 +95,21 @@ function logRegFail($userName, $sqlInsert, $error) {
 function logReg($userName) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
-  $log_file_reg = fopen("logs/log_reg.txt", "a+");
+  $log_file_reg = fopen("../../logs/log_reg.txt", "a+");
   $log_msg = "User: %s,Date: %s,Time: %s\n";
   $log_msg = sprintf($log_msg,$userName, $date, $time);
   fwrite($log_file_reg, $log_msg);
   fclose($log_file_reg);
 }
 ?>
+    <div class="nav-parent">
+        <div class="nav">
+            <a href="../../index.php">Home</a>
+            <a href="/pub/php/account.php">Account</a>
+        </div>
+    </div>
 
-    <div class="userForm">
+    <div class="user-login-form">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="user_name">Name</label>
             <input type="text" id="user_name" name="name" placeholder="Your Username">
@@ -117,13 +120,23 @@ function logReg($userName) {
             <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
             <label for="cookie_confirm">AGB & Cookie Confirmation</label>
             <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> both have to be accepted in order to use our service.</div>
-            <div class="flexUserForm">
+            <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button><a href="index.php">Sign In</a></button>
+              <button class="button"><a href="login.php">Sign In</a></button>
             </div>
         </form>
     </div>
-
+    <footer>
+        <div class="flex-footer">
+            <div>
+                <a href="#search">Impressum</a>
+                <a href="#search">Datenschutz</a>
+                <a href="#search">AGB</a>
+                <a href="#search">Support</a>
+                <a href="/pub/php/logout.php">Logout</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

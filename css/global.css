@@ -1,21 +1,28 @@
 body {
+    min-height: 100vh;
+    position: relative;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 footer {
-    position: fixed;
     width: 100%;
-    bottom: 0;
+    position: absolute;
     background-color: black;
     color: white;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    height: 10%;
+    height: 3%;
+    bottom: 0;
 }
 
-footer div {
+.flex-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.flex-footer div {
     width: 75%;
     height: 100%;
     display: flex;
@@ -24,7 +31,33 @@ footer div {
     align-items: center;
 }
 
-footer div a {
+.flex-footer div a {
     color: white;
     text-decoration: none;
+}
+
+button,
+.button {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: navy;
+}
+
+button:hover,
+.button:hover {
+    background-color: #03037a;
+    color: white;
+    font-weight: bolder;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+* {
+    box-sizing: border-box;
 }

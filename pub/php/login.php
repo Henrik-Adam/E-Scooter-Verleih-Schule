@@ -4,33 +4,29 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/login_Registry_Style.css">
-    <link rel="stylesheet" href="css/messages_Style.css">
-    <meta charset="utf-8"> 
-    <title>Pwd-Manager Sign In</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="/css/login_system.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Login</title>
 </head>
 <body>
 
 <?php
-require('logic/db_connection.php');
-require('logic/support_logic.php');
+
+require('support_logic.php');
 
 $userName = $userPwd = "";
 
-if(array_key_exists("user_id", $_SESSION) && array_key_exists("welcome_id", $_SESSION)) {
-  $userId = $_SESSION["user_id"];
-  $welcomeId = $_SESSION["welcome_id"];
-  if($userId >= 1 || $welcomeId === 1) {
-    unset($_SESSION["welcome_id"]);
-    unset($_SESSION["user_id"]);
-    echo("<div class='success'>SUCCESS! You have successfully logged out. </div>");
-  }
-} elseif($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
   $userName = testInput($_POST["name"]);
   $userPwd = testInput($_POST["password"]);
   $cookieConfirm = testInput(isset($_POST["cookieConfirm"]));
   if (!empty($userName) && strlen($userPwd) >= 5 && $cookieConfirm === "1") {
-    userValidation($conn, $userName, $userPwd);
+    userValidation($userName, $userPwd);
   } elseif(empty($userName) && empty($userPwd)) {
     echo("<div class='info'>INFO! Please Sign in!</div>");
   } elseif($cookieConfirm != "1") {
@@ -38,20 +34,27 @@ if(array_key_exists("user_id", $_SESSION) && array_key_exists("welcome_id", $_SE
   } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
 } else echo("<div class='info'>INFO! Please Sign in!</div>");
 
-function userValidation($conn, $userName, $userPwd) {
-  $sqlUser = "SELECT user_name, user_pwd, user_id, user_crypt FROM db_user_reg WHERE user_name= '%s'";
-  $sqlUser = sprintf($sqlUser, $conn->real_escape_string($userName));
-  $resultUser = $conn->query($sqlUser);
-  $userArray = $resultUser->fetch_assoc();
-  $hash = $userArray["user_pwd"];
-    
-  if(password_verify($userPwd, $hash)) {
-    setUserSession($userName, $userArray["user_id"], $userArray["user_crypt"]);
-    logLogin($userName);
-    header("Location: http://localhost/pwd_overview.php");
-  } else {
-    echo "<div class='warning'>WARNING! Username or password are incorrect. Or you don't have an account yet, please create one!</div>";
-  }
+function userValidation($userName, $userPwd) {
+    $file = "../../file_save/user-data.json";
+    $data = file_get_contents($file);
+    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
+    $jsonArr = json_decode($data, true);
+    foreach($jsonArr as $outArr) {
+        if($userName == $outArr["user_name"]) {
+            $userData = $outArr;
+        }
+    }
+    $userId = $userData["user_Id"];
+    $hash = $userData["user_pwd"];
+    $userCrypt = $userData["user_crypt"];
+      
+    if(password_verify($userPwd, $hash)) {
+      setUserSession($userName, $userId, $userCrypt);
+      logLogin($userName);
+      header("Location: http://localhost/index.php");
+    } else {
+      echo "<div class='warning'>WARNING! Username or password are incorrect. Or you don't have an account yet, please create one!</div>";
+    }
 }
 
 function setUserSession($userName, $userId, $userCrypt) {
@@ -64,30 +67,45 @@ function setUserSession($userName, $userId, $userCrypt) {
 function logLogin($userName) {
   $date = date("d.m.Y");
   $time = date("h:i:sa");
-  $log_file_login = fopen("logs/log_login.txt", "a+");
+  $log_file_login = fopen("../../logs/log_login.txt", "a+");
   $log_msg = "User: %s,Date: %s,Time: %s\n";
   $log_msg = sprintf($log_msg,$userName, $date, $time);
   fwrite($log_file_login, $log_msg);
   fclose($log_file_login);
 }
 ?>
-
-    <div class="userForm">
+    <div class="nav-parent">
+        <div class="nav">
+            <a href="../../index.php">Home</a>
+            <a href="/pub/php/account.php">Account</a>
+        </div>
+    </div>
+    <div class="user-login-form">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="user_name">Name</label>
             <input type="text" id="user_name" name="name" placeholder="Your username">
             <label for="user_pwd">Password</label>
             <input type="password" id="user_pwd" name="password" placeholder="Your password">
             <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
-            <label for="cookie_confirm">AGB & Cookie Confirmation</label>
-            <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> both have to be accepted in order to use our service.</div>
-            <div class="flexUserForm">
+            <label for="cookie_confirm">AGB & Cookie Bestätigung</label>
+            <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Informationen</a> beide müssen akzeptiert werden um den vollen umfang unserer Dienste verwenden zu können. Wir Informieren sie bei Änderungen!</div>
+            <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button><a href="registry.php">Sign Up</a></button>
+              <button><a href="registry.php">Zur Registrierung</a></button>
             </div>
         </form>
     </div>
-
+    <footer>
+        <div class="flex-footer">
+            <div>
+                <a href="#search">Impressum</a>
+                <a href="#search">Datenschutz</a>
+                <a href="#search">AGB</a>
+                <a href="#search">Support</a>
+                <a href="/pub/php/logout.php">Logout</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
