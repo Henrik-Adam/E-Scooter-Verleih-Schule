@@ -15,9 +15,50 @@ session_start();
     <title>Home</title>
 </head>
 <?php
+
+require('support_logic.php');
+
 $userId = $_SESSION['user_id'];
-var_dump($userId);
-echo ($userId);
+
+function getUserData($userId) {
+    $file = "/file_save/user-data.json";
+    $data = file_get_contents($file);
+    if(!empty($data)) {
+        $jsonArr = json_decode($data, true);
+        foreach ($jsonArr as $userData) {
+            if($userId == $userData["user_id"]) {
+                $userDataArr = $userData;
+                return $userDataArr;
+            }
+        }
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    getReservationData();
+}
+
+function getReservationData() {
+    $name = testInput($_POST["name"]);
+    $email = testInput($_POST["email"]);
+    $postalRoad = testInput($_POST["postal-road"]);
+    $postalNr = testInput($_POST["postal-nr"]);
+    $city = testInput($_POST["city"]);
+    $sType = testInput($_POST["s-type"]);
+    $resStart = testInput($_POST["res-day-start"]);
+    $resEnd = testInput($_POST["res-day-end"]);
+    $time = date("d.m.Y");
+    $resDataArr = ["name" => $name, "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "time" => $time];
+    setDataInJson($resDataArr);
+}
+
+function setDataInJson($resDataArr) {
+    $file = "/file_save/order-data.json";
+    $data = file_get_contents($file);
+    $jsonArr = json_decode($data, true);
+    $jsonArr[] = $resDataArr;
+    file_put_contents($file, json_encode($jsonArr));
+}
 ?>
 
 <body>
@@ -79,17 +120,17 @@ echo ($userId);
                 <label for="city"><b>Stadt</b></label>
                 <input type="text" placeholder="Stadt" name="city" required>
 
-                <label for="e-type"><b>E-Scooter Typ</b></label>
-                <select id="e-type" name="e-type">
+                <label for="s-type"><b>E-Scooter Typ</b></label>
+                <select id="s-type" name="s-type" required>
                     <option value="casual">Casual SOFLOW - SO1 E-Scooter</option>
                     <option value="offroad">Offroad VIRON E-Scooter</option>
                     <option value="ftl">FTL SXT Compact Ultimate</option>
                 </select>
                 <label for="res-day-start"><b>Reservierungszeitraum</b></label>
                 <div class="flex">
-                    <input type="date" id="res-day-start" name="res-day-start">
+                    <input type="date" id="res-day-start" name="res-day-start" required>
                     <p> bis zum </p>
-                    <input type="date" id="res-day-end" name="res-day-end">
+                    <input type="date" id="res-day-end" name="res-day-end" required>
                 </div>
                 <div class="flex">
                     <button type="submit" class="btn">Reservieren</button>
