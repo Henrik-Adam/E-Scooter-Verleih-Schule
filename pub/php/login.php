@@ -16,7 +16,30 @@ session_start();
 
 <?php
 
+require('support_logic.php');
 
+$userName = $userPwd = "";
+
+if(array_key_exists("user_id", $_SESSION) && array_key_exists("welcome_id", $_SESSION)) {
+  $userId = $_SESSION["user_id"];
+  $welcomeId = $_SESSION["welcome_id"];
+  if($userId >= 1 || $welcomeId === 1) {
+    unset($_SESSION["welcome_id"]);
+    unset($_SESSION["user_id"]);
+    echo("<div class='success'>SUCCESS! You have successfully logged out. </div>");
+  }
+} elseif($_SERVER["REQUEST_METHOD"] == "POST") {
+  $userName = testInput($_POST["name"]);
+  $userPwd = testInput($_POST["password"]);
+  $cookieConfirm = testInput(isset($_POST["cookieConfirm"]));
+  if (!empty($userName) && strlen($userPwd) >= 5 && $cookieConfirm === "1") {
+    userValidation($conn, $userName, $userPwd);
+  } elseif(empty($userName) && empty($userPwd)) {
+    echo("<div class='info'>INFO! Please Sign in!</div>");
+  } elseif($cookieConfirm != "1") {
+    echo("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
+  } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
+} else echo("<div class='info'>INFO! Please Sign in!</div>");
 
 function setUserSession($userName, $userId, $userCrypt) {
   $_SESSION['user_name'] = $userName;

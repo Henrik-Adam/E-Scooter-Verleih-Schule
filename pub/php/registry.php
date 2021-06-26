@@ -124,7 +124,7 @@ function logReg($userName) {
             <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button class="button"><a href="index.php">Sign In</a></button>
+              <button class="button"><a href="login.php">Sign In</a></button>
             </div>
         </form>
     </div>
