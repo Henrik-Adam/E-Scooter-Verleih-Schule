@@ -56,14 +56,13 @@ function userValidation($userName, $userPwd, $cookieConfirm) {
     $cryptKey = generateCryptKey($userPwd);
     $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
     $file = "../../file_save/user-data.json";
-    $data = file_get_contents("../../file_save/user-data.json");
+    $data = file_get_contents($file);
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
     $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
     $jsonArr[] = ["user_name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_Id" => $userId];
     $jsonStr = json_encode($jsonArr);
     if (strlen($jsonStr) != 0) {
-      $_SESSION['welcome_id'] = 3;
       file_put_contents($file, $jsonStr);
       logReg($userName);
       header("Location: http://localhost/pub/php/login.php");
@@ -129,12 +128,14 @@ function logReg($userName) {
         </form>
     </div>
     <footer>
-        <div>
-            <a href="#search">Impressum</a>
-            <a href="#search">Datenschutz</a>
-            <a href="#search">AGB</a>
-            <a href="#search">Support</a>
-            <a href="#search">Logout</a>
+        <div class="flex-footer">
+            <div>
+                <a href="#search">Impressum</a>
+                <a href="#search">Datenschutz</a>
+                <a href="#search">AGB</a>
+                <a href="#search">Support</a>
+                <a href="/pub/php/logout.php">Logout</a>
+            </div>
         </div>
     </footer>
 </body>

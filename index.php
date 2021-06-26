@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -10,7 +13,11 @@
     <meta charset="utf-8">
     <title>Home</title>
 </head>
-
+<?php
+    $userId = $_SESSION['user_id'];
+    var_dump($userId);
+    echo($userId);
+?>
 <body>
     <div class="nav-parent">
         <div class="nav">
@@ -94,12 +101,14 @@
         </div>
     </div>
     <footer>
-        <div>
-            <a href="#search">Impressum</a>
-            <a href="#search">Datenschutz</a>
-            <a href="#search">AGB</a>
-            <a href="#search">Support</a>
-            <a href="#search">Logout</a>
+        <div class="flex-footer">
+            <div>
+                <a href="#search">Impressum</a>
+                <a href="#search">Datenschutz</a>
+                <a href="#search">AGB</a>
+                <a href="#search">Support</a>
+                <a href="/pub/php/logout.php">Logout</a>
+            </div>
         </div>
     </footer>
 
