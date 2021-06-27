@@ -20,78 +20,50 @@ require('./pub/php/support_logic.php');
 
 $userId = $_SESSION['user_id'];
 
-function getUserData($userId) {
-    $file = "./file_save/user-data.json";
-    $data = file_get_contents($file);
-    if(!empty($data)) {
-        $jsonArr = json_decode($data, true);
-        foreach ($jsonArr as $userData) {
-            if($userId == $userData["user_id"]) {
-                $userDataArr = $userData;
-                return $userDataArr;
-            }
-        }
-    }
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     getReservationData($userId);
 }
 
-function getReservationData($userId) {
-    if(array_key_exists("name", $_POST)) {
+function getReservationData($userId)
+{
+    if (array_key_exists("name", $_POST)) {
         $name = testInput($_POST["name"]);
     }
-    if(array_key_exists("email", $_POST)) {
+    if (array_key_exists("email", $_POST)) {
         $email = testInput($_POST["email"]);
     }
-    if(array_key_exists("postal-road", $_POST)) {
+    if (array_key_exists("postal-road", $_POST)) {
         $postalRoad = testInput($_POST["postal-road"]);
     }
-    if(array_key_exists("postal-nr", $_POST)) {
+    if (array_key_exists("postal-nr", $_POST)) {
         $postalNr = testInput($_POST["postal-nr"]);
     }
-    if(array_key_exists("city", $_POST)) {
+    if (array_key_exists("city", $_POST)) {
         $city = testInput($_POST["city"]);
     }
-    if(array_key_exists("s-type", $_POST)) {
+    if (array_key_exists("s-type", $_POST)) {
         $sType = testInput($_POST["s-type"]);
     }
-    if(array_key_exists("res-day-start", $_POST)) {
+    if (array_key_exists("res-day-start", $_POST)) {
         $resStart = testInput($_POST["res-day-start"]);
     }
-    if(array_key_exists("res-day-end", $_POST)) {
+    if (array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    if(strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
         $orderId = getOrderId();
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
-        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd,"user_id" => $userId, "time" => $time];
-        setDataInJson($resDataArr);
+        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
+        setOrderDataInJson($resDataArr);
     } else {
         $_SESSION['order_fail'] = true;
     }
 }
-
-function getOrderId() {
-    $file = "./file_save/order-data.json";
-    $data = file_get_contents($file);
-    $jsonArr = json_decode($data, true);
-    $orderId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
-    return $orderId;
-}
-
-function setDataInJson($resDataArr) {
-    $file = "./file_save/order-data.json";
-    $data = file_get_contents($file);
-    $jsonArr = json_decode($data, true);
-    $jsonArr[] = $resDataArr;
-    file_put_contents($file, json_encode($jsonArr));
-}
 ?>
 
 <body>
+    <noscript><div class='error'>ERROR: Dein Browser Untersützt kein Javascript! Aktiviere Javascript um alle Funktionen nutzten zu können!</div></noscript>
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
@@ -113,7 +85,9 @@ function setDataInJson($resDataArr) {
             </div>
         </div>
     </div>
-    <?php if($_SESSION['order_fail']){echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");} ?>
+    <?php if ($_SESSION['order_fail']) {
+        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+    } ?>
     <div class="info_container">
         <div class="info_item">
             <div class="info_item_big">
@@ -139,7 +113,7 @@ function setDataInJson($resDataArr) {
                 <h1 class="large-font" style="color:navy;"><b>VIRON E-Scooter</b></h1>
                 <p>Der Elektro- Scooter - "VIRON" ist mit einem Kraftvollen 1000 Watt Elektromotor ausgestattet. Das 36 Volt Akkupaket, bestehend aus drei 12 Volt Akkus mit je 12 Ah, bringt den Scooter mit nur einer Akkuladung in Abhängigkeit der Geländebeschaffenheit
                     auf eine Reichweite von bis zu 30 Kilometern. Die Ladedauer beträgt ca. 6-7 Stunden.</p>
-                    <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
         </div>
     </div>
@@ -161,12 +135,16 @@ function setDataInJson($resDataArr) {
 
     <div id="reservationForm" class="modal">
         <span onclick="document.getElementById('reservationForm').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
+        <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="container">
                 <h1>Reserveriungsformular</h1>
-                <?php 
-                    if($userId == 0){echo("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");} 
-                    if($_SESSION['order_fail']){echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");}
+                <?php
+                if ($userId == 0) {
+                    echo ("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");
+                }
+                if ($_SESSION['order_fail']) {
+                    echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+                }
                 ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>

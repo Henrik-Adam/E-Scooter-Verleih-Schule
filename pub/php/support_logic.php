@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 function decryptKey() {
   $cryptKey = $_SESSION['user_crypt'];
   $key = base64_decode($cryptKey);
@@ -36,6 +38,43 @@ function testInput($data) {
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+
+function getUserData($userId) {
+  $file = "../../file_save/user-data.json";
+  $data = file_get_contents($file);
+  if(!empty($data)) {
+      $jsonArr = json_decode($data, true);
+      foreach ($jsonArr as $userData) {
+          if($userId == $userData["user_id"]) {
+              $userDataArr = $userData;
+              return $userDataArr;
+          }
+      }
+  }
+}
+
+function getOrderId() {
+  $file = "./file_save/order-data.json";
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  $orderId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
+  return $orderId;
+}
+
+function getAllOrderData() {
+  $file = "./file_save/order-data.json";
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  return $jsonArr;
+}
+
+function setOrderDataInJson($resDataArr) {
+  $file = "./file_save/order-data.json";
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  $jsonArr[] = $resDataArr;
+  file_put_contents($file, json_encode($jsonArr));
 }
 
 ?>
