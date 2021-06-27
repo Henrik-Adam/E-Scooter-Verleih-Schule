@@ -87,9 +87,13 @@ function getReservationData($userId)
             </div>
         </div>
     </div>
-    <?php if ($_SESSION['order_fail']) {
-        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
-    } ?>
+    <?php 
+    if(isset($_SESSION['order_fail'])) {
+        if($_SESSION['order_fail']) {
+        echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+        }
+    } 
+    ?>
     <div class="info_container">
         <div class="info_item">
             <div class="info_item_big">
