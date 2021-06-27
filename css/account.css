@@ -7,7 +7,6 @@
 .reservation th {
     border: 1px solid #ddd;
     padding: 0.6%;
-    ;
     word-wrap: break-word;
 }
 
@@ -39,6 +38,12 @@ footer {
     overflow-x: auto;
     padding-top: 5%;
 }
+
+.user-address {
+    background-color: #fff;
+    padding: 1% 1%;
+}
+
 
 .running {
     color: #4f8a10;

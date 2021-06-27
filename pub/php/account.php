@@ -28,10 +28,33 @@ function getUserOrders($userId)
   $jsonArr = getAllOrderData($fileOrder, $userId);
   foreach ($jsonArr as $orderData) {
     if($userId == $orderData["user_id"]) {
-        $orderDataArr[] = $orderData;
+      $orderDataArr[] = $orderData;
     }
   }
   return $orderDataArr;
+}
+
+function getUserAddress($userId)
+{
+  $fileUser = "../../file_save/user-data.json";
+  $jsonArr = getUserData($fileUser, $userId); // Hier wenn notwendig andere Funktion aufrufen für Adresse
+    
+  return $jsonArr;
+}
+
+function createAddressOverview($userId)
+{
+  $userData = getUserAddress($userId);
+  if(isset($userData)) {
+    echo '<br><br><br>';
+    echo '<div class="user-address">';
+    echo '<h3 class="large-font" style="margin-top: 0px;">Ihre Rechnungsadresse:</h3>';
+    echo '<p>Hier Name</p>';           
+    echo '<p>Hier Stra&szlige und Hausnummer</p>';  // &szlig ist ß          
+    echo '<p>Hier PLZ und Ort</p>';            
+    echo '<p>Hier evtl Telefonnr. und/oder Email</p>';   
+    echo '</div>';
+  }
 }
 
 function createTable($userId)
@@ -66,6 +89,7 @@ function createTable($userId)
     </div>
   </div>
   <?php
+    createAddressOverview($userId);
     createTable($userId);
   ?>
 
