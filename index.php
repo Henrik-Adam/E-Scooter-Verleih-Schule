@@ -16,12 +16,12 @@ session_start();
 </head>
 <?php
 
-require('support_logic.php');
+require('./pub/php/support_logic.php');
 
 $userId = $_SESSION['user_id'];
 
 function getUserData($userId) {
-    $file = "/file_save/user-data.json";
+    $file = "./file_save/user-data.json";
     $data = file_get_contents($file);
     if(!empty($data)) {
         $jsonArr = json_decode($data, true);
@@ -35,25 +35,41 @@ function getUserData($userId) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    getReservationData();
+    getReservationData($userId);
 }
 
-function getReservationData() {
-    $name = testInput($_POST["name"]);
-    $email = testInput($_POST["email"]);
-    $postalRoad = testInput($_POST["postal-road"]);
-    $postalNr = testInput($_POST["postal-nr"]);
-    $city = testInput($_POST["city"]);
-    $sType = testInput($_POST["s-type"]);
-    $resStart = testInput($_POST["res-day-start"]);
-    $resEnd = testInput($_POST["res-day-end"]);
+function getReservationData($userId) {
+    if(array_key_exists("name", $_POST)) {
+        $name = testInput($_POST["name"]);
+    }
+    if(array_key_exists("email", $_POST)) {
+        $email = testInput($_POST["email"]);
+    }
+    if(array_key_exists("postal-road", $_POST)) {
+        $postalRoad = testInput($_POST["postal-road"]);
+    }
+    if(array_key_exists("postal-nr", $_POST)) {
+        $postalNr = testInput($_POST["postal-nr"]);
+    }
+    if(array_key_exists("city", $_POST)) {
+        $city = testInput($_POST["city"]);
+    }
+    if(array_key_exists("s-type", $_POST)) {
+        $sType = testInput($_POST["s-type"]);
+    }
+    if(array_key_exists("res-day-start", $_POST)) {
+        $resStart = testInput($_POST["res-day-start"]);
+    }
+    if(array_key_exists("res-day-end", $_POST)) {
+        $resEnd = testInput($_POST["res-day-end"]);
+    }
     $time = date("d.m.Y");
-    $resDataArr = ["name" => $name, "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "time" => $time];
+    $resDataArr = ["name" => $name, "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd,"user_id" => $userId, "time" => $time];
     setDataInJson($resDataArr);
 }
 
 function setDataInJson($resDataArr) {
-    $file = "/file_save/order-data.json";
+    $file = "./file_save/order-data.json";
     $data = file_get_contents($file);
     $jsonArr = json_decode($data, true);
     $jsonArr[] = $resDataArr;
@@ -98,11 +114,42 @@ function setDataInJson($resDataArr) {
         </div>
     </div>
 
+    <div class="info_container" style="background-color:#f1f1f1">
+        <div class="info_item">
+            <div class="info_item_small">
+                <img src="/img/pics/offroadEScoouter.jpg" width="450" height="450">
+            </div>
+            <div class="info_item_big">
+                <h1 class="xlarge-font">Offroad</h1>
+                <h1 class="large-font" style="color:navy;"><b>VIRON E-Scooter</b></h1>
+                <p>Der Elektro- Scooter - "VIRON" ist mit einem Kraftvollen 1000 Watt Elektromotor ausgestattet. Das 36 Volt Akkupaket, bestehend aus drei 12 Volt Akkus mit je 12 Ah, bringt den Scooter mit nur einer Akkuladung in Abhängigkeit der Geländebeschaffenheit
+                    auf eine Reichweite von bis zu 30 Kilometern. Die Ladedauer beträgt ca. 6-7 Stunden.</p>
+                    <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info_container">
+        <div class="info_item">
+            <div class="info_item_big">
+                <h1 class="xlarge-font">FTL</h1>
+                <h1 class="large-font" style="color:navy;"><b>SXT Compact Ultimate</b></h1>
+                <p>Wenn es um Geschwindigkeit geht, lässt der SXT Compact Ultimate die meisten seiner Konkurrenten weit hinter sich. Mit 40 km/h ist er einer der schnellsten E-Scooter, die auf dem Markt erhältlich sind. Ein weiterer Pluspunkt ist seine enorme
+                    Reichweite von ganzen 50 km.</p>
+                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+            </div>
+            <div class="info_item_small">
+                <img src="/img/pics/escoouterFast.jpg" width="500" height="500">
+            </div>
+        </div>
+    </div>
+
     <div id="reservationForm" class="modal">
         <span onclick="document.getElementById('reservationForm').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <form class="modal-content" action="/action_page.php">
+        <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
             <div class="container">
                 <h1>Reserveriungsformular</h1>
+                <?php if($userId == 0){echo("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");} ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
@@ -139,36 +186,6 @@ function setDataInJson($resDataArr) {
                 </div>
             </div>
         </form>
-    </div>
-
-    <div class="info_container" style="background-color:#f1f1f1">
-        <div class="info_item">
-            <div class="info_item_small">
-                <img src="/img/pics/offroadEScoouter.jpg" width="450" height="450">
-            </div>
-            <div class="info_item_big">
-                <h1 class="xlarge-font">Offroad</h1>
-                <h1 class="large-font" style="color:navy;"><b>VIRON E-Scooter</b></h1>
-                <p>Der Elektro- Scooter - "VIRON" ist mit einem Kraftvollen 1000 Watt Elektromotor ausgestattet. Das 36 Volt Akkupaket, bestehend aus drei 12 Volt Akkus mit je 12 Ah, bringt den Scooter mit nur einer Akkuladung in Abhängigkeit der Geländebeschaffenheit
-                    auf eine Reichweite von bis zu 30 Kilometern. Die Ladedauer beträgt ca. 6-7 Stunden.</p>
-                    <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="info_container">
-        <div class="info_item">
-            <div class="info_item_big">
-                <h1 class="xlarge-font">FTL</h1>
-                <h1 class="large-font" style="color:navy;"><b>SXT Compact Ultimate</b></h1>
-                <p>Wenn es um Geschwindigkeit geht, lässt der SXT Compact Ultimate die meisten seiner Konkurrenten weit hinter sich. Mit 40 km/h ist er einer der schnellsten E-Scooter, die auf dem Markt erhältlich sind. Ein weiterer Pluspunkt ist seine enorme
-                    Reichweite von ganzen 50 km.</p>
-                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
-            </div>
-            <div class="info_item_small">
-                <img src="/img/pics/escoouterFast.jpg" width="500" height="500">
-            </div>
-        </div>
     </div>
 
     <div class="info_container" style="background-color:#f1f1f1">
