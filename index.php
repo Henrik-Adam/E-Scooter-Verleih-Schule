@@ -5,11 +5,11 @@ session_start();
 <html>
 
 <head>
-    <link rel="stylesheet" href="/css/main_page.css">
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/modal.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="./css/main_page.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="stylesheet" href="./css/notifications.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Home</title>
@@ -69,13 +69,13 @@ function getReservationData($userId)
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
-            <a href="/pub/php/account.php">Account</a>
+            <a href="./pub/php/account.php">Account</a>
         </div>
     </div>
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="/img/pics/escooterrunner.jpg" width="600" height="600">
+                <img src="./img/pics/escooterrunner.jpg" width="600" height="600">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font" style='margin-top: 0px;'><b>Freedom</b></h1>
@@ -100,7 +100,7 @@ function getReservationData($userId)
                 <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="/img/pics/escooter.jpg" width="335" height="471">
+                <img src="./img/pics/escooter.jpg" width="335" height="471">
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@ function getReservationData($userId)
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="/img/pics/offroadEScoouter.jpg" width="450" height="450">
+                <img src="./img/pics/offroadEScoouter.jpg" width="450" height="450">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font">Offroad</h1>
@@ -130,7 +130,7 @@ function getReservationData($userId)
                 <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="/img/pics/escoouterFast.jpg" width="500" height="500">
+                <img src="./img/pics/escoouterFast.jpg" width="500" height="500">
             </div>
         </div>
     </div>
@@ -209,11 +209,11 @@ function getReservationData($userId)
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="/pub/php/logout.php">Logout</a>
+                <a href="./pub/php/logout.php">Logout</a>
             </div>
         </div>
     </footer>
-    <script src="/js/modal_forms.js"></script>
+    <script src="./js/modal_forms.js"></script>
 </body>
 
 </html>

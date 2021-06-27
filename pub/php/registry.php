@@ -4,10 +4,10 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/notifications.css">
-    <link rel="stylesheet" href="/css/login_system.css">
+<link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/nav.css">
+    <link rel="stylesheet" href="../../css/notifications.css">
+    <link rel="stylesheet" href="../../css/login_system.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Registrieren</title>
@@ -65,7 +65,7 @@ function userValidation($userName, $userPwd, $cookieConfirm) {
     if (strlen($jsonStr) != 0) {
       file_put_contents($file, $jsonStr);
       logReg($userName);
-      header("Location: http://localhost/pub/php/login.php");
+      header("Location: ./login.php");
     } else {
       echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
       logRegFail($userName, json_last_error_msg());

@@ -5,10 +5,10 @@ session_start();
 <html>
 
 <head>
-  <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/nav.css">
-  <link rel="stylesheet" href="/css/account.css">
-  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/nav.css">
+  <link rel="stylesheet" href="../../css/account.css">
+  <link rel="stylesheet" href="../../css/notifications.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>Account</title>
@@ -17,7 +17,7 @@ session_start();
 require('support_logic.php');
 
 if (!isset($_SESSION['user_id'])) {
-  header("Location: http://localhost/pub/php/login.php");
+  header("Location: ./login.php");
 }
 
 $userId = $_SESSION['user_id'];
@@ -53,7 +53,7 @@ function createTable($userId)
   <div class="nav-parent">
     <div class="nav">
       <a href="../../index.php">Home</a>
-      <a href="/pub/php/account.php" class="active">Account</a>
+      <a href="./account.php" class="active">Account</a>
     </div>
   </div>
   <?php
@@ -67,7 +67,7 @@ function createTable($userId)
         <a href="#search">Datenschutz</a>
         <a href="#search">AGB</a>
         <a href="#search">Support</a>
-        <a href="/pub/php/logout.php">Logout</a>
+        <a href="./logout.php">Logout</a>
       </div>
     </div>
   </footer>
