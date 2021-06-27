@@ -92,7 +92,7 @@ function logLogin($userName) {
             <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button><a href="registry.php">Zur Registrierung</a></button>
+              <button><a href="./registry.php">Zur Registrierung</a></button>
             </div>
         </form>
     </div>

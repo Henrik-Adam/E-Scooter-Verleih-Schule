@@ -37,12 +37,21 @@ function getUserOrders($userId)
 function createTable($userId)
 {
   $userOrderDataArr = getUserOrders($userId);
-  if(count($userOrderDataArr) > 0) {
+  if(isset($userOrderDataArr) && count($userOrderDataArr) > 0) {
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
     foreach($userOrderDataArr as $row) {
       echo "<tr><td>".$row['order_id']."</td><td>". escooterType($row['scooter_type'])."</td><td>". convertReversedDate($row['res_start']). " bis ". convertReversedDate($row['res_end'])."</td><td>". $row['time'] ."</td>". ifTimeEx($row['res_start'], $row['res_end']) ."</tr>";
     }
+    echo "</table>";
+    echo "</div>";
+  }
+  else {
+    echo '<div class="table-reservation">';
+    echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
+
+    echo "<tr><td>Sie haben noch keine Reservierungen!</td>";
+    
     echo "</table>";
     echo "</div>";
   }
