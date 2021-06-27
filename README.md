@@ -23,4 +23,5 @@ Geplant -->
 - Rechnungsaddresse einfügen/edit
 - Formular vorausgefüllt
 - PDF ausgabe
-- AUfhübschen des Logins
+- Aufhübschen des Logins
+- Account details
