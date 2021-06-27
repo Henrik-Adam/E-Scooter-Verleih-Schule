@@ -19,6 +19,32 @@ require('support_logic.php');
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ./login.php");
+} else $userId = $_SESSION['user_id']; 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  getReservationData($userId);
+}
+
+function getReservationData($userId)
+{
+  $file = "../../file_save/user-data.json";
+
+  if (array_key_exists("postal-road", $_POST)) {
+    $postalRoad = testInput($_POST["postal-road"]);
+  }
+  if (array_key_exists("postal-nr", $_POST)) {
+    $postalNr = testInput($_POST["postal-nr"]);
+  }
+  if (array_key_exists("city", $_POST)) {
+    $city = testInput($_POST["city"]);
+  }
+  if (strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+    $_SESSION['address_insert_fail'] = true;
+    $userDataArr = ["user_road" => $postalRoad, "user_postal" => $postalNr, "user_city" => $city];
+    updateUser($file, $userId, $userDataArr);
+  } else {
+    $_SESSION['order_fail'] = true;
+  }
 }
 
 $userId = $_SESSION['user_id'];
@@ -52,14 +78,14 @@ function createAddressOverview($userId)
   $file = "../../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
-    if (array_key_exists("user_road", $userDataArr)) {
-      $roadAndNr = $userDataArr["user_road"];
+    if (array_key_exists("user_road", $userDataArr["user_address"])) {
+      $roadAndNr = $userDataArr["user_address"]["user_road"];
     } else $roadAndNr = "";
-    if (array_key_exists("user_postal", $userDataArr)) {
-      $postal = $userDataArr["user_postal"];
+    if (array_key_exists("user_postal", $userDataArr["user_address"])) {
+      $postal = $userDataArr["user_address"]["user_postal"];
     } else $postal = "";
-    if (array_key_exists("user_city", $userDataArr)) {
-      $city = $userDataArr["user_city"];
+    if (array_key_exists("user_city", $userDataArr["user_address"])) {
+      $city = $userDataArr["user_address"]["user_city"];
     } else $city = "";
 
     echo '<p><strong>Straße und Hausnummer: </strong>' . $roadAndNr . '</p>';
@@ -147,7 +173,7 @@ function createTable($userId)
         <input type="text" placeholder="Stadt" name="city" required>
 
         <div class="flex">
-          <button type="submit" class="btn">Reservieren</button>
+          <button type="submit" class="btn">Bestätigen</button>
           <button type="reset" class="btn">Reset</button>
           <button type="button" onclick="document.getElementById('modalForm').style.display='none'" class="cancelbtn">Cancel</button>
         </div>

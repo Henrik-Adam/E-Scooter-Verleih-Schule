@@ -61,7 +61,7 @@ function userValidation($userName, $userEmail, $userPwd, $cookieConfirm) {
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
     $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
-    $jsonArr[] = ["user_id" => $userId, "user_name" => $userName, "user_email" => $userEmail, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm];
+    $jsonArr[] = ["user_id" => $userId, "user_name" => $userName, "user_email" => $userEmail, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_address" => ["user_road" => " ", "user_postal" => " ", "user_city" => " "]];
     $jsonStr = json_encode($jsonArr);
     if (strlen($jsonStr) != 0) {
       file_put_contents($file, $jsonStr);

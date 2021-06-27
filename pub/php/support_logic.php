@@ -72,6 +72,18 @@ function setOrderDataInJson($file, $resDataArr) {
   file_put_contents($file, json_encode($jsonArr));
 }
 
+function updateUser($file, $userId, $userDataArr) {
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  foreach ($jsonArr as $userData) {
+    if($userId == $userData["user_id"]) {
+        $userData["user_address"] = $userDataArr;
+    }
+  }
+  $userData = [$userData];
+  file_put_contents($file, json_encode($userData));
+}
+
 function convertReversedDate($date) {
   $newDate = date("d.m.Y", strtotime($date));
   return $newDate;
