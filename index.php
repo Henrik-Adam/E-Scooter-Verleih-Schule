@@ -58,6 +58,8 @@ function getReservationData($userId)
         $_SESSION['order_fail'] = false;
         $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
+        header("Location: /pub/php/account.php");
+        $_SESSION['order_success'] = true;
     } else {
         $_SESSION['order_fail'] = true;
     }

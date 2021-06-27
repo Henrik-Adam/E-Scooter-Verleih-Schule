@@ -27,54 +27,61 @@ function getUserOrders($userId)
   $fileOrder = "../../file_save/order-data.json";
   $jsonArr = getAllOrderData($fileOrder, $userId);
   foreach ($jsonArr as $orderData) {
-    if($userId == $orderData["user_id"]) {
+    if ($userId == $orderData["user_id"]) {
       $orderDataArr[] = $orderData;
     }
   }
   return $orderDataArr;
 }
 
-function getUserAddress($userId)
+function createAccountOverview($userId)
 {
-  $fileUser = "../../file_save/user-data.json";
-  $jsonArr = getUserData($fileUser, $userId); // Hier wenn notwendig andere Funktion aufrufen für Adresse
-    
-  return $jsonArr;
+  $file = "../../file_save/user-data.json";
+  $userDataArr = getUserData($file, $userId);
+  if (isset($userDataArr)) {
+    echo '<p><strong>Name: </strong>'.$userDataArr['user_name'].'</p>';
+    echo '<p><strong>Email: </strong>'.$userDataArr['user_email'].'</p>';
+    echo '<p><strong>Passwort: </strong>******</p>';
+  }
 }
+
 
 function createAddressOverview($userId)
 {
-  $userData = getUserAddress($userId);
-  if(isset($userData)) {
-    echo '<br><br><br>';
-    echo '<div class="user-address">';
-    echo '<h3 class="large-font" style="margin-top: 0px;">Ihre Rechnungsadresse:</h3>';
-    echo '<p>Hier Name</p>';           
-    echo '<p>Hier Stra&szlige und Hausnummer</p>';  // &szlig ist ß          
-    echo '<p>Hier PLZ und Ort</p>';            
-    echo '<p>Hier evtl Telefonnr. und/oder Email</p>';   
-    echo '</div>';
+  $file = "../../file_save/user-data.json";
+  $userDataArr = getUserData($file, $userId);
+  if (isset($userDataArr)) {
+    if (array_key_exists("user_road", $userDataArr)) {
+      $roadAndNr = $userDataArr["user_road"];
+    } else $roadAndNr = "";
+    if (array_key_exists("user_postal", $userDataArr)) {
+      $postal = $userDataArr["user_postal"];
+    } else $postal = "";
+    if (array_key_exists("user_city", $userDataArr)) {
+      $city = $userDataArr["user_city"];
+    } else $city = "";
+
+    echo '<p><strong>StraÃŸe und Hausnummer: </strong>'.$roadAndNr.'</p>';
+    echo '<p><strong>PLZ: </strong>'.$postal.'</p>';
+    echo '<p><strong>Stadt: </strong>'.$city.'</p>';        
   }
 }
 
 function createTable($userId)
 {
   $userOrderDataArr = getUserOrders($userId);
-  if(isset($userOrderDataArr) && count($userOrderDataArr) > 0) {
+  if (isset($userOrderDataArr) && count($userOrderDataArr) > 0) {
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
-    foreach($userOrderDataArr as $row) {
-      echo "<tr><td>".$row['order_id']."</td><td>". escooterType($row['scooter_type'])."</td><td>". convertReversedDate($row['res_start']). " bis ". convertReversedDate($row['res_end'])."</td><td>". $row['time'] ."</td>". ifTimeEx($row['res_start'], $row['res_end']) ."</tr>";
+    foreach ($userOrderDataArr as $row) {
+      echo "<tr><td>" . $row['order_id'] . "</td><td>" . escooterType($row['scooter_type']) . "</td><td>" . convertReversedDate($row['res_start']) . " bis " . convertReversedDate($row['res_end']) . "</td><td>" . $row['time'] . "</td>" . ifTimeEx($row['res_end']) . "</tr>";
     }
     echo "</table>";
     echo "</div>";
-  }
-  else {
+  } else {
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
-
     echo "<tr><td>Sie haben noch keine Reservierungen!</td>";
-    
     echo "</table>";
     echo "</div>";
   }
@@ -88,11 +95,30 @@ function createTable($userId)
       <a href="./account.php" class="active">Account</a>
     </div>
   </div>
+  <div class="account-overview">
+    <div class="overview-head-boxes">
+      <strong>Kontoinformationen</strong>
+    </div>
+    <div class="overview-info-box">
+      <?php
+        createAccountOverview($userId);
+      ?>
+    </div>
+    <div class="overview-head-boxes">
+      <strong>Addressbuch</strong>
+    </div>
+    <div class="overview-info-box">
+      <?php
+        createAddressOverview($userId);
+      ?>
+    </div>
+    <div class="overview-head-boxes">
+      <strong>ReservierungsÃ¼bersicht</strong>
+    </div>
+  </div>
   <?php
-    createAddressOverview($userId);
     createTable($userId);
   ?>
-
   <footer>
     <div class="flex-footer">
       <div>
