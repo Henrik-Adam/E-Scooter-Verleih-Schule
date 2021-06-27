@@ -7,6 +7,7 @@ session_start();
 <head>
   <link rel="stylesheet" href="../../css/global.css">
   <link rel="stylesheet" href="../../css/nav.css">
+  <link rel="stylesheet" href="../../css/modal.css">
   <link rel="stylesheet" href="../../css/account.css">
   <link rel="stylesheet" href="../../css/notifications.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,8 +40,8 @@ function createAccountOverview($userId)
   $file = "../../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
-    echo '<p><strong>Name: </strong>'.$userDataArr['user_name'].'</p>';
-    echo '<p><strong>Email: </strong>'.$userDataArr['user_email'].'</p>';
+    echo '<p><strong>Name: </strong>' . $userDataArr['user_name'] . '</p>';
+    echo '<p><strong>Email: </strong>' . $userDataArr['user_email'] . '</p>';
     echo '<p><strong>Passwort: </strong>******</p>';
   }
 }
@@ -61,9 +62,9 @@ function createAddressOverview($userId)
       $city = $userDataArr["user_city"];
     } else $city = "";
 
-    echo '<p><strong>Straße und Hausnummer: </strong>'.$roadAndNr.'</p>';
-    echo '<p><strong>PLZ: </strong>'.$postal.'</p>';
-    echo '<p><strong>Stadt: </strong>'.$city.'</p>';        
+    echo '<p><strong>Straße und Hausnummer: </strong>' . $roadAndNr . '</p>';
+    echo '<p><strong>PLZ: </strong>' . $postal . '</p>';
+    echo '<p><strong>Stadt: </strong>' . $city . '</p>';
   }
 }
 
@@ -101,7 +102,7 @@ function createTable($userId)
     </div>
     <div class="overview-info-box">
       <?php
-        createAccountOverview($userId);
+      createAccountOverview($userId);
       ?>
     </div>
     <div class="overview-head-boxes">
@@ -109,16 +110,51 @@ function createTable($userId)
     </div>
     <div class="overview-info-box">
       <?php
-        createAddressOverview($userId);
+      createAddressOverview($userId);
       ?>
+      <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Addressen bearbeiten</button>
     </div>
     <div class="overview-head-boxes">
       <strong>Reservierungsübersicht</strong>
     </div>
   </div>
   <?php
-    createTable($userId);
+  createTable($userId);
   ?>
+
+  <div id="modalForm" class="modal">
+    <span onclick="document.getElementById('modalForm').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+      <div class="container">
+        <h1>Addressen Hinzufügen</h1>
+        <?php
+        if (isset($_SESSION['address_insert_fail'])) {
+          if ($_SESSION['address_insert_fail']) {
+            echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+          }
+        }
+        ?>
+        <p>Bitte füllen sie alle unten angebenen Felder aus. Die Daten werden bei zukünftigen Reservierungen im Formular voreingestellt.</p>
+        <hr>
+
+        <label for="postal-road"><b>Straße und Hausnummer</b></label>
+        <input type="text" placeholder="Straße" name="postal-road" required>
+
+        <label for="postal-nr"><b>PLZ</b></label>
+        <input type="number" placeholder="Postleitzahl" name="postal-nr" required>
+
+        <label for="city"><b>Stadt</b></label>
+        <input type="text" placeholder="Stadt" name="city" required>
+
+        <div class="flex">
+          <button type="submit" class="btn">Reservieren</button>
+          <button type="reset" class="btn">Reset</button>
+          <button type="button" onclick="document.getElementById('modalForm').style.display='none'" class="cancelbtn">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <footer>
     <div class="flex-footer">
       <div>
@@ -130,7 +166,7 @@ function createTable($userId)
       </div>
     </div>
   </footer>
-
+  <script src="./js/modal_forms.js"></script>
 </body>
 
 </html>

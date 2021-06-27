@@ -103,7 +103,7 @@ function getReservationData($userId)
                 <h1 class="large-font" style="color:navy;"><b>SOFLOW - SO1 E-Scooter</b></h1>
                 <p>Der SO1 verfügt über einen 300 Watt Motor und hat eine Reichweite von bis zu 12 Kilometern. Seine maximale Geschwindigkeit endet bei 20 km/h. Der Scooter bewältigt auch Steigungen von max. 5 % mühelos. Er verfügt über eine elektrische
                     Vorderrad- und eine mechanische Hinterradbremse, und ist ausgestattet mit einem Vorderlicht und einem Bremslicht.</p>
-                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
                 <img src="./img/pics/escooter.jpg" width="335" height="471">
@@ -121,7 +121,7 @@ function getReservationData($userId)
                 <h1 class="large-font" style="color:navy;"><b>VIRON E-Scooter</b></h1>
                 <p>Der Elektro- Scooter - "VIRON" ist mit einem Kraftvollen 1000 Watt Elektromotor ausgestattet. Das 36 Volt Akkupaket, bestehend aus drei 12 Volt Akkus mit je 12 Ah, bringt den Scooter mit nur einer Akkuladung in Abhängigkeit der Geländebeschaffenheit
                     auf eine Reichweite von bis zu 30 Kilometern. Die Ladedauer beträgt ca. 6-7 Stunden.</p>
-                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
         </div>
     </div>
@@ -133,7 +133,7 @@ function getReservationData($userId)
                 <h1 class="large-font" style="color:navy;"><b>SXT Compact Ultimate</b></h1>
                 <p>Wenn es um Geschwindigkeit geht, lässt der SXT Compact Ultimate die meisten seiner Konkurrenten weit hinter sich. Mit 40 km/h ist er einer der schnellsten E-Scooter, die auf dem Markt erhältlich sind. Ein weiterer Pluspunkt ist seine enorme
                     Reichweite von ganzen 50 km.</p>
-                <button class="button" onclick="document.getElementById('reservationForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
+                <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
                 <img src="./img/pics/escoouterFast.jpg" width="500" height="500">
@@ -141,8 +141,8 @@ function getReservationData($userId)
         </div>
     </div>
 
-    <div id="reservationForm" class="modal">
-        <span onclick="document.getElementById('reservationForm').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <div id="modalForm" class="modal">
+        <span onclick="document.getElementById('modalForm').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="container">
                 <h1>Reserveriungsformular</h1>
@@ -188,7 +188,7 @@ function getReservationData($userId)
                 <div class="flex">
                     <button type="submit" class="btn">Reservieren</button>
                     <button type="reset" class="btn">Reset</button>
-                    <button type="button" onclick="document.getElementById('reservationForm').style.display='none'" class="cancelbtn">Cancel</button>
+                    <button type="button" onclick="document.getElementById('modalForm').style.display='none'" class="cancelbtn">Cancel</button>
                 </div>
             </div>
         </form>
