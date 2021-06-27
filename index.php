@@ -26,6 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function getReservationData($userId)
 {
+    $fileOrder = "./file_save/order-data.json";
+
     if (array_key_exists("name", $_POST)) {
         $name = testInput($_POST["name"]);
     }
@@ -51,11 +53,11 @@ function getReservationData($userId)
         $resEnd = testInput($_POST["res-day-end"]);
     }
     if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
-        $orderId = getOrderId();
+        $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
         $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
-        setOrderDataInJson($resDataArr);
+        setOrderDataInJson($fileOrder, $resDataArr);
     } else {
         $_SESSION['order_fail'] = true;
     }

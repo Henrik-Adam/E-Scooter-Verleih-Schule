@@ -1,103 +1,76 @@
 <?php
-    session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/account.css">
-    <link rel="stylesheet" href="/css/notifications.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <title>Account</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/account.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>Account</title>
 </head>
 <?php
-if(!isset($_SESSION['user_id'])) {
-    header("Location: http://localhost/pub/php/login.php");
+require('support_logic.php');
+
+if (!isset($_SESSION['user_id'])) {
+  header("Location: http://localhost/pub/php/login.php");
+}
+
+$userId = $_SESSION['user_id'];
+
+function getUserOrders($userId)
+{
+  $fileOrder = "../../file_save/order-data.json";
+  $jsonArr = getAllOrderData($fileOrder, $userId);
+  foreach ($jsonArr as $orderData) {
+    if($userId == $orderData["user_id"]) {
+        $orderDataArr[] = $orderData;
+    }
+  }
+  return $orderDataArr;
+}
+
+function createTable($userId)
+{
+  $userOrderDataArr = getUserOrders($userId);
+  if(count($userOrderDataArr) > 0) {
+    echo '<div class="table-reservation">';
+    echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
+    foreach($userOrderDataArr as $row) {
+      echo "<tr><td>".$row['order_id']."</td><td>". $row['scooter_type']."</td><td>". $row['res_start']. " bis ". $row['res_end']."</td><td>". $row['time'] ."</td>". ifTimeEx($row['res_start'], $row['res_end']) ."</tr>";
+    }
+    echo "</table>";
+    echo "</div>";
+  }
 }
 ?>
+
 <body>
-    <div class="nav-parent">
-        <div class="nav">
-            <a href="../../index.php">Home</a>
-            <a href="/pub/php/account.php" class="active">Account</a>
-        </div>
+  <div class="nav-parent">
+    <div class="nav">
+      <a href="../../index.php">Home</a>
+      <a href="/pub/php/account.php" class="active">Account</a>
     </div>
+  </div>
+  <?php
+    createTable($userId);
+  ?>
 
-
-    <div class="table-reservation">
-    <table class="reservation">
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Berglunds snabbköp</td>
-    <td>Christina Berglund</td>
-    <td>Sweden</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Königlich Essen</td>
-    <td>Philip Cramer</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-  </tr>
-  <tr>
-    <td>North/South</td>
-    <td>Simon Crowther</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Paris spécialités</td>
-    <td>Marie Bertrand</td>
-    <td>France</td>
-  </tr>
-</table>
+  <footer>
+    <div class="flex-footer">
+      <div>
+        <a href="#search">Impressum</a>
+        <a href="#search">Datenschutz</a>
+        <a href="#search">AGB</a>
+        <a href="#search">Support</a>
+        <a href="/pub/php/logout.php">Logout</a>
+      </div>
     </div>
-
-    <footer>
-        <div class="flex-footer">
-            <div>
-                <a href="#search">Impressum</a>
-                <a href="#search">Datenschutz</a>
-                <a href="#search">AGB</a>
-                <a href="#search">Support</a>
-                <a href="/pub/php/logout.php">Logout</a>
-            </div>
-        </div>
-    </footer>
+  </footer>
 
 </body>
 

@@ -40,6 +40,20 @@ footer {
     padding-top: 5%;
 }
 
+.running {
+    color: #4f8a10;
+    background-color: #DFF2BF;
+    text-align: center;
+    font-weight: bold;
+}
+
+.expired {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    text-align: center;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 850px) {
     .reservation {
         margin-top: 40%;

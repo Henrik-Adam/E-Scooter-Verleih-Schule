@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 function decryptKey() {
   $cryptKey = $_SESSION['user_crypt'];
@@ -40,8 +39,7 @@ function testInput($data) {
     return $data;
 }
 
-function getUserData($userId) {
-  $file = "../../file_save/user-data.json";
+function getUserData($file, $userId) {
   $data = file_get_contents($file);
   if(!empty($data)) {
       $jsonArr = json_decode($data, true);
@@ -54,27 +52,37 @@ function getUserData($userId) {
   }
 }
 
-function getOrderId() {
-  $file = "./file_save/order-data.json";
+function getOrderId($file) {
   $data = file_get_contents($file);
   $jsonArr = json_decode($data, true);
   $orderId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
   return $orderId;
 }
 
-function getAllOrderData() {
-  $file = "./file_save/order-data.json";
+function getAllOrderData($file) {
   $data = file_get_contents($file);
   $jsonArr = json_decode($data, true);
   return $jsonArr;
 }
 
-function setOrderDataInJson($resDataArr) {
-  $file = "./file_save/order-data.json";
+function setOrderDataInJson($file, $resDataArr) {
   $data = file_get_contents($file);
   $jsonArr = json_decode($data, true);
   $jsonArr[] = $resDataArr;
   file_put_contents($file, json_encode($jsonArr));
+}
+
+function escooterType($type) {
+  return $type;
+}
+
+function IfTimeEx($timeEnd) {
+  $today = date("d.m.Y");
+  if(strtotime($today) <= strtotime($timeEnd)){
+    return "<td class='running'>aktiv</td>";
+  } else {
+    return "<td class='expired'>inaktiv</td>";
+  }
 }
 
 ?>

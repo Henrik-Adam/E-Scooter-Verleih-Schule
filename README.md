@@ -17,3 +17,10 @@ Sie haben die Aufgabe, eine Website (Webauftritt) für eine Firma, die einen E-S
 - Bestätigung der Reservierung in Form einer textuellen Ausgabe auf der Seite zum Ausdruck 
 
 Finale Abgabe: 06.07.2021
+
+Geplant -->
+- Support Seite
+- Rechnungsaddresse einfügen/edit
+- Formular vorausgefüllt
+- PDF ausgabe
+- AUfhübschen des Logins
