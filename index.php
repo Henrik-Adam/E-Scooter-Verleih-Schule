@@ -63,9 +63,23 @@ function getReservationData($userId) {
     if(array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    $time = date("d.m.Y");
-    $resDataArr = ["name" => $name, "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd,"user_id" => $userId, "time" => $time];
-    setDataInJson($resDataArr);
+    if(strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+        $orderId = getOrderId();
+        $time = date("d.m.Y");
+        $_SESSION['order_fail'] = false;
+        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd,"user_id" => $userId, "time" => $time];
+        setDataInJson($resDataArr);
+    } else {
+        $_SESSION['order_fail'] = true;
+    }
+}
+
+function getOrderId() {
+    $file = "./file_save/order-data.json";
+    $data = file_get_contents($file);
+    $jsonArr = json_decode($data, true);
+    $orderId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
+    return $orderId;
 }
 
 function setDataInJson($resDataArr) {
@@ -99,6 +113,7 @@ function setDataInJson($resDataArr) {
             </div>
         </div>
     </div>
+    <?php if($_SESSION['order_fail']){echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");} ?>
     <div class="info_container">
         <div class="info_item">
             <div class="info_item_big">
@@ -149,7 +164,10 @@ function setDataInJson($resDataArr) {
         <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
             <div class="container">
                 <h1>Reserveriungsformular</h1>
-                <?php if($userId == 0){echo("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");} ?>
+                <?php 
+                    if($userId == 0){echo("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");} 
+                    if($_SESSION['order_fail']){echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");}
+                ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
