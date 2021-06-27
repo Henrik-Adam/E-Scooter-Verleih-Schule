@@ -148,9 +148,11 @@ function getReservationData($userId)
                 if ($userId == 0) {
                     echo ("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");
                 }
-                if ($_SESSION['order_fail']) {
-                    echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
-                }
+                if(isset($_SESSION['order_fail'])) {
+                    if($_SESSION['order_fail']) {
+                    echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+                    }
+                } 
                 ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
