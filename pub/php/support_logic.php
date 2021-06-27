@@ -72,8 +72,23 @@ function setOrderDataInJson($file, $resDataArr) {
   file_put_contents($file, json_encode($jsonArr));
 }
 
+function convertReversedDate($date) {
+  $newDate = date("d.m.Y", strtotime($date));
+  return $newDate;
+}
+
 function escooterType($type) {
-  return $type;
+  switch ($type) {
+    case "casual":
+        return "SOFLOW - SO1";
+        break;
+    case "offroad":
+        return "VIRON";
+        break;
+    case "ftl":
+        return "SXT Compact Ultimate";
+        break;
+  }
 }
 
 function IfTimeEx($timeEnd) {

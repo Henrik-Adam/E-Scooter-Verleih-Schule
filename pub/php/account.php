@@ -41,7 +41,7 @@ function createTable($userId)
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
     foreach($userOrderDataArr as $row) {
-      echo "<tr><td>".$row['order_id']."</td><td>". $row['scooter_type']."</td><td>". $row['res_start']. " bis ". $row['res_end']."</td><td>". $row['time'] ."</td>". ifTimeEx($row['res_start'], $row['res_end']) ."</tr>";
+      echo "<tr><td>".$row['order_id']."</td><td>". escooterType($row['scooter_type'])."</td><td>". convertReversedDate($row['res_start']). " bis ". convertReversedDate($row['res_end'])."</td><td>". $row['time'] ."</td>". ifTimeEx($row['res_start'], $row['res_end']) ."</tr>";
     }
     echo "</table>";
     echo "</div>";
