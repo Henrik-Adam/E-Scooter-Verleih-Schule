@@ -19,6 +19,8 @@ session_start();
 require('./pub/php/support_logic.php');
 
 $userId = $_SESSION['user_id'];
+$userFile = "./file_save/user-data.json";
+$userData = getUserData($userFile, $userId);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     getReservationData($userId);
@@ -58,7 +60,7 @@ function getReservationData($userId)
         $_SESSION['order_fail'] = false;
         $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
-        header("Location: /pub/php/account.php");
+        header("Location: ./pub/php/account.php");
         $_SESSION['order_success'] = true;
     } else {
         $_SESSION['order_fail'] = true;
@@ -159,19 +161,19 @@ function getReservationData($userId)
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Name" name="name" required>
+                <input type="text" placeholder="Name" name="name" value="<?php echo($userData['user_name']);?>" required>
 
                 <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Email" name="email" required>
+                <input type="text" placeholder="Email" name="email" value="<?php echo($userData['user_email']);?>" required>
 
                 <label for="postal-road"><b>Straße und Hausnummer</b></label>
-                <input type="text" placeholder="Straße" name="postal-road" required>
+                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo($userData['user_address']['user_road']);?>" required>
 
                 <label for="postal-nr"><b>PLZ</b></label>
-                <input type="number" placeholder="Postleitzahl" name="postal-nr" required>
+                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo($userData['user_address']['user_postal']);?>"required>
 
                 <label for="city"><b>Stadt</b></label>
-                <input type="text" placeholder="Stadt" name="city" required>
+                <input type="text" placeholder="Stadt" name="city" value="<?php echo($userData['user_address']['user_city']);?>" required>
 
                 <label for="s-type"><b>E-Scooter Typ</b></label>
                 <select id="s-type" name="s-type" required>
