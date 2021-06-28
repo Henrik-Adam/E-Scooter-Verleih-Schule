@@ -77,7 +77,7 @@ function logLogin($userName) {
   fclose($log_file_login);
 }
 ?>
-    <div class="nav-parent">
+    <div class="nav-parent" style="position: relative">
         <div class="nav">
             <a href="../../index.php">Home</a>
             <a href="./account.php">Account</a>
@@ -99,7 +99,7 @@ function logLogin($userName) {
             </div>
         </form>
     </div>
-    <footer>
+    <footer style="position: fixed">
         <div class="flex-footer">
             <div>
                 <a href="#search">Impressum</a>

@@ -18,7 +18,10 @@ session_start();
 
 require('./pub/php/support_logic.php');
 
-$userId = $_SESSION['user_id'];
+if(isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} else $userId = 0;
+
 $userFile = "./file_save/user-data.json";
 $userData = getUserData($userFile, $userId);
 
@@ -54,7 +57,7 @@ function getReservationData($userId)
     if (array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0) {
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
@@ -150,7 +153,7 @@ function getReservationData($userId)
                 <h1>Reserveriungsformular</h1>
                 <?php
                 if ($userId == 0) {
-                    echo ("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");
+                    echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
                 }
                 if(isset($_SESSION['order_fail'])) {
                     if($_SESSION['order_fail']) {

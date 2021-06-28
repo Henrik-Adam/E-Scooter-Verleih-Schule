@@ -146,6 +146,10 @@ function createTable($userId)
     </div>
   </div>
   <?php
+  if(isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
+    echo ("<div class='success'>Ihre Bestellung wurde erfolgreich verarbeitet!</div>");
+    $_SESSION['order_success'] = false;
+  }
   createTable($userId);
   ?>
 
