@@ -1,7 +1,7 @@
 /* Nav */
 
 .nav-parent {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     margin: auto;
@@ -9,6 +9,7 @@
 }
 
 .nav {
+    position: relative;
     overflow: hidden;
     background-color: white;
     display: flex;

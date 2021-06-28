@@ -2,15 +2,18 @@ body {
     min-height: 100vh;
     position: relative;
     margin: 0;
+    padding-bottom: 6rem;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 footer {
     width: 100%;
-    position: absolute;
+    position: fixed;
     background-color: black;
     color: white;
     height: 3%;
+    right: 0;
+    left: 0;
     bottom: 0;
 }
 

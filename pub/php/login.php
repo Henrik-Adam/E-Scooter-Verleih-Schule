@@ -44,11 +44,14 @@ function userValidation($userName, $userPwd) {
             $userData = $outArr;
         }
     }
-    $userId = $userData["user_id"];
-    $hash = $userData["user_pwd"];
-    $userCrypt = $userData["user_crypt"];
+    if(isset($userData))
+    {
+      $userId = $userData["user_id"];
+      $hash = $userData["user_pwd"];
+      $userCrypt = $userData["user_crypt"];
+    }
       
-    if(password_verify($userPwd, $hash)) {
+    if(isset($hash) && password_verify($userPwd, $hash)) {
       setUserSession($userName, $userId, $userCrypt);
       logLogin($userName);
       header("Location: ../../index.php");
