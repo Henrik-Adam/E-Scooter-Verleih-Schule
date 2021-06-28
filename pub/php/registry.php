@@ -4,10 +4,10 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/notifications.css">
-    <link rel="stylesheet" href="/css/login_system.css">
+<link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/nav.css">
+    <link rel="stylesheet" href="../../css/notifications.css">
+    <link rel="stylesheet" href="../../css/login_system.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Registrieren</title>
@@ -18,15 +18,16 @@ session_start();
 
 require('support_logic.php');
 
-$userName = $userPwd = $userConfirmedPwd = "";
+$userName = $userEmail= $userPwd = $userConfirmedPwd = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $userName = testInput($_POST["name"]);
+  $userEmail = testInput($_POST["email"]);
   $cookieConfirm = testInput(isset($_POST["cookieConfirm"]));
   $userPwd = testInput($_POST["password"]);
   $userConfirmedPwd = testInput($_POST["confirmedPassword"]);
   if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1") {
-    userValidation($userName, $userPwd, $cookieConfirm);
+    userValidation($userName, $userEmail, $userPwd, $cookieConfirm);
   } elseif(strlen($userPwd) <= 5 && strlen($userConfirmedPwd) <= 5) {
     echo("<div class='warning'>WARNING! The passwords are to short to be secure. Please use a longer password.</div>");
   } elseif($userPwd != $userConfirmedPwd) {
@@ -51,7 +52,7 @@ function checkIfUserExist($userName) {
   }
 }
 
-function userValidation($userName, $userPwd, $cookieConfirm) {
+function userValidation($userName, $userEmail, $userPwd, $cookieConfirm) {
   if(!checkIfUserExist($userName)) {
     $cryptKey = generateCryptKey($userPwd);
     $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
@@ -60,12 +61,12 @@ function userValidation($userName, $userPwd, $cookieConfirm) {
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
     $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
-    $jsonArr[] = ["user_name" => $userName, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_Id" => $userId];
+    $jsonArr[] = ["user_id" => $userId, "user_name" => $userName, "user_email" => $userEmail, "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_address" => ["user_road" => " ", "user_postal" => " ", "user_city" => " "]];
     $jsonStr = json_encode($jsonArr);
     if (strlen($jsonStr) != 0) {
       file_put_contents($file, $jsonStr);
       logReg($userName);
-      header("Location: http://localhost/pub/php/login.php");
+      header("Location: ./login.php");
     } else {
       echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
       logRegFail($userName, json_last_error_msg());
@@ -105,7 +106,7 @@ function logReg($userName) {
     <div class="nav-parent">
         <div class="nav">
             <a href="../../index.php">Home</a>
-            <a href="/pub/php/account.php">Account</a>
+            <a href="./account.php">Account</a>
         </div>
     </div>
 
@@ -113,6 +114,8 @@ function logReg($userName) {
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="user_name">Name</label>
             <input type="text" id="user_name" name="name" placeholder="Your Username">
+            <label for="user_email">Email</label>
+            <input type="email" id="user_email" name="email" placeholder="Your Email">
             <label for="user_pwd">Password</label>
             <input type="password" id="user_pwd" name="password" placeholder="Password">
             <label for="user_confirm_pwd">Password verify</label>
@@ -123,7 +126,7 @@ function logReg($userName) {
             <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button class="button"><a href="login.php">Sign In</a></button>
+              <button class="button"><a href="./login.php">Sign In</a></button>
             </div>
         </form>
     </div>
@@ -134,7 +137,7 @@ function logReg($userName) {
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="/pub/php/logout.php">Logout</a>
+                <a href="./logout.php">Logout</a>
             </div>
         </div>
     </footer>

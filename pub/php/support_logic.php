@@ -1,4 +1,5 @@
 <?php
+
 function decryptKey() {
   $cryptKey = $_SESSION['user_crypt'];
   $key = base64_decode($cryptKey);
@@ -36,6 +37,79 @@ function testInput($data) {
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+
+function getUserData($file, $userId) {
+  $data = file_get_contents($file);
+  if(!empty($data)) {
+      $jsonArr = json_decode($data, true);
+      foreach ($jsonArr as $userData) {
+          if($userId == $userData["user_id"]) {
+              $userDataArr = $userData;
+              return $userDataArr;
+          }
+      }
+  }
+}
+
+function getOrderId($file) {
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  $orderId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
+  return $orderId;
+}
+
+function getAllOrderData($file) {
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  return $jsonArr;
+}
+
+function setOrderDataInJson($file, $resDataArr) {
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  $jsonArr[] = $resDataArr;
+  file_put_contents($file, json_encode($jsonArr));
+}
+
+function updateUser($file, $userId, $userDataArr) {
+  $data = file_get_contents($file);
+  $jsonArr = json_decode($data, true);
+  foreach ($jsonArr as $userData) {
+    if($userId == $userData["user_id"]) {
+        $userData["user_address"] = $userDataArr;
+    }
+  }
+  $userData = [$userData];
+  file_put_contents($file, json_encode($userData));
+}
+
+function convertReversedDate($date) {
+  $newDate = date("d.m.Y", strtotime($date));
+  return $newDate;
+}
+
+function escooterType($type) {
+  switch ($type) {
+    case "casual":
+        return "SOFLOW - SO1";
+        break;
+    case "offroad":
+        return "VIRON";
+        break;
+    case "ftl":
+        return "SXT Compact Ultimate";
+        break;
+  }
+}
+
+function IfTimeEx($timeEnd) {
+  $today = date("d.m.Y");
+  if(strtotime($today) <= strtotime($timeEnd)){
+    return "<td class='running'>aktiv</td>";
+  } else {
+    return "<td class='expired'>inaktiv</td>";
+  }
 }
 
 ?>

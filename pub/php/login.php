@@ -4,10 +4,10 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/notifications.css">
-    <link rel="stylesheet" href="/css/login_system.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/nav.css">
+    <link rel="stylesheet" href="../../css/notifications.css">
+    <link rel="stylesheet" href="../../css/login_system.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Login</title>
@@ -44,14 +44,14 @@ function userValidation($userName, $userPwd) {
             $userData = $outArr;
         }
     }
-    $userId = $userData["user_Id"];
+    $userId = $userData["user_id"];
     $hash = $userData["user_pwd"];
     $userCrypt = $userData["user_crypt"];
       
     if(password_verify($userPwd, $hash)) {
       setUserSession($userName, $userId, $userCrypt);
       logLogin($userName);
-      header("Location: http://localhost/index.php");
+      header("Location: ../../index.php");
     } else {
       echo "<div class='warning'>WARNING! Username or password are incorrect. Or you don't have an account yet, please create one!</div>";
     }
@@ -77,7 +77,7 @@ function logLogin($userName) {
     <div class="nav-parent">
         <div class="nav">
             <a href="../../index.php">Home</a>
-            <a href="/pub/php/account.php">Account</a>
+            <a href="./account.php">Account</a>
         </div>
     </div>
     <div class="user-login-form">
@@ -92,7 +92,7 @@ function logLogin($userName) {
             <div class="flex-user-form">
               <input type="submit" value="Submit">
               <input type="reset" value="Reset">
-              <button><a href="registry.php">Zur Registrierung</a></button>
+              <button><a href="./registry.php">Zur Registrierung</a></button>
             </div>
         </form>
     </div>
@@ -103,7 +103,7 @@ function logLogin($userName) {
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="/pub/php/logout.php">Logout</a>
+                <a href="./logout.php">Logout</a>
             </div>
         </div>
     </footer>
