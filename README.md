@@ -20,8 +20,4 @@ Finale Abgabe: 06.07.2021
 
 Geplant -->
 - Support Seite
-- Rechnungsaddresse einfügen/edit
-- Formular vorausgefüllt
 - PDF ausgabe
-- Aufhübschen des Logins
-- Account details
