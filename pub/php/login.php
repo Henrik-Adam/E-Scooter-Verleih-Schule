@@ -28,11 +28,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($userName) && strlen($userPwd) >= 5 && $cookieConfirm === "1") {
     userValidation($userName, $userPwd);
   } elseif(empty($userName) && empty($userPwd)) {
-    echo("<div class='info'>INFO! Please Sign in!</div>");
+    echo("<div class='info'>INFO! Bitte Anmelden!</div>");
   } elseif($cookieConfirm != "1") {
     echo("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
-  } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
-} else echo("<div class='info'>INFO! Please Sign in!</div>");
+  } else echo("<div class='error'>ERROR! Keine gültige Dateneingabe!</div>");
+} else echo("<div class='info'>INFO! Bitte Anmelden!</div>");
 
 function userValidation($userName, $userPwd) {
     $file = "../../file_save/user-data.json";
