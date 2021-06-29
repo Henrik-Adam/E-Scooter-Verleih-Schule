@@ -53,6 +53,7 @@ function getUserOrders($userId)
 {
   $fileOrder = "../../file_save/order-data.json";
   $jsonArr = getAllOrderData($fileOrder, $userId);
+  $orderDataArr = [];
   foreach ($jsonArr as $orderData) {
     if ($userId == $orderData["user_id"]) {
       $orderDataArr[] = $orderData;
@@ -136,7 +137,7 @@ function createTable($userId)
     </div>
     <div class="overview-info-box">
       <?php
-      createAddressOverview($userId);
+        createAddressOverview($userId);
       ?>
       <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Addressen bearbeiten</button>
     </div>
@@ -145,6 +146,10 @@ function createTable($userId)
     </div>
   </div>
   <?php
+  if(isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
+    echo ("<div class='success'>Ihre Bestellung wurde erfolgreich verarbeitet!</div>");
+    $_SESSION['order_success'] = false;
+  }
   createTable($userId);
   ?>
 

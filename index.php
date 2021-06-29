@@ -18,7 +18,10 @@ session_start();
 
 require('./pub/php/support_logic.php');
 
-$userId = $_SESSION['user_id'];
+if(isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} else $userId = 0;
+
 $userFile = "./file_save/user-data.json";
 $userData = getUserData($userFile, $userId);
 
@@ -54,7 +57,7 @@ function getReservationData($userId)
     if (array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0) {
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
@@ -62,10 +65,19 @@ function getReservationData($userId)
         setOrderDataInJson($fileOrder, $resDataArr);
         header("Location: ./pub/php/account.php");
         $_SESSION['order_success'] = true;
+        $_SESSION['not_login'] = false;
+    } elseif($userId == 0) {
+        $_SESSION['not_login'] = true;
     } else {
         $_SESSION['order_fail'] = true;
     }
 }
+
+$userName = isset($userData['user_name']) ? $userData['user_name'] : "";
+$userEmail = isset($userData['user_email']) ? $userData['user_email'] : "";
+$userRoad = isset($userData['user_address']['user_road']) ? $userData['user_address']['user_road'] : "";
+$userPostal = isset($userData['user_address']['user_postal']) ? $userData['user_address']['user_postal'] : "";
+$userCity = isset($userData['user_address']['user_city']) ? $userData['user_address']['user_city'] : "";
 ?>
 
 <body>
@@ -92,10 +104,11 @@ function getReservationData($userId)
         </div>
     </div>
     <?php 
-    if(isset($_SESSION['order_fail'])) {
-        if($_SESSION['order_fail']) {
+    if(isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
         echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
-        }
+    } 
+    if(isset($_SESSION['not_login']) && $_SESSION['not_login']) {
+        echo("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
     } 
     ?>
     <div class="info_container">
@@ -150,7 +163,7 @@ function getReservationData($userId)
                 <h1>Reserveriungsformular</h1>
                 <?php
                 if ($userId == 0) {
-                    echo ("<div class='info'>Wenn sie einen Account haben können sie sich anmelden!</div>");
+                    echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
                 }
                 if(isset($_SESSION['order_fail'])) {
                     if($_SESSION['order_fail']) {
@@ -161,19 +174,19 @@ function getReservationData($userId)
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Name" name="name" value="<?php echo($userData['user_name']);?>" required>
+                <input type="text" placeholder="Name" name="name" value="<?php echo($userName);?>" required>
 
                 <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Email" name="email" value="<?php echo($userData['user_email']);?>" required>
+                <input type="text" placeholder="Email" name="email" value="<?php echo($userEmail);?>" required>
 
                 <label for="postal-road"><b>Straße und Hausnummer</b></label>
-                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo($userData['user_address']['user_road']);?>" required>
+                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo($userRoad);?>" required>
 
                 <label for="postal-nr"><b>PLZ</b></label>
-                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo($userData['user_address']['user_postal']);?>"required>
+                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo($userPostal);?>"required>
 
                 <label for="city"><b>Stadt</b></label>
-                <input type="text" placeholder="Stadt" name="city" value="<?php echo($userData['user_address']['user_city']);?>" required>
+                <input type="text" placeholder="Stadt" name="city" value="<?php echo($userCity);?>" required>
 
                 <label for="s-type"><b>E-Scooter Typ</b></label>
                 <select id="s-type" name="s-type" required>

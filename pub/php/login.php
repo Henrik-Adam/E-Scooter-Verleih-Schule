@@ -28,11 +28,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($userName) && strlen($userPwd) >= 5 && $cookieConfirm === "1") {
     userValidation($userName, $userPwd);
   } elseif(empty($userName) && empty($userPwd)) {
-    echo("<div class='info'>INFO! Please Sign in!</div>");
+    echo("<div class='info'>INFO! Bitte Anmelden!</div>");
   } elseif($cookieConfirm != "1") {
     echo("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
-  } else echo("<div class='error'>ERROR! No valid Data Input!</div>");
-} else echo("<div class='info'>INFO! Please Sign in!</div>");
+  } else echo("<div class='error'>ERROR! Keine gültige Dateneingabe!</div>");
+} else echo("<div class='info'>INFO! Bitte Anmelden!</div>");
 
 function userValidation($userName, $userPwd) {
     $file = "../../file_save/user-data.json";
@@ -44,11 +44,14 @@ function userValidation($userName, $userPwd) {
             $userData = $outArr;
         }
     }
-    $userId = $userData["user_id"];
-    $hash = $userData["user_pwd"];
-    $userCrypt = $userData["user_crypt"];
+    if(isset($userData))
+    {
+      $userId = $userData["user_id"];
+      $hash = $userData["user_pwd"];
+      $userCrypt = $userData["user_crypt"];
+    }
       
-    if(password_verify($userPwd, $hash)) {
+    if(isset($hash) && password_verify($userPwd, $hash)) {
       setUserSession($userName, $userId, $userCrypt);
       logLogin($userName);
       header("Location: ../../index.php");
@@ -74,7 +77,7 @@ function logLogin($userName) {
   fclose($log_file_login);
 }
 ?>
-    <div class="nav-parent">
+    <div class="nav-parent" style="position: relative">
         <div class="nav">
             <a href="../../index.php">Home</a>
             <a href="./account.php">Account</a>
@@ -96,7 +99,7 @@ function logLogin($userName) {
             </div>
         </form>
     </div>
-    <footer>
+    <footer style="position: fixed">
         <div class="flex-footer">
             <div>
                 <a href="#search">Impressum</a>
