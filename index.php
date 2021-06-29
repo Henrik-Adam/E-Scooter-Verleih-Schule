@@ -107,14 +107,14 @@ function createSlider() {
         echo('<div class="mySlides">');
         echo('<div class="numbertext">'.$i++.'/'.count($sliderArr).'</div>');
         echo('<img src="'.$slide["name"].'" style="width:100%">');
-        echo('<div class="dot-div" style="text-align:center">');
         echo('<div class="text">'.$slide["header"].'</div>');
-        for($x = 1; $x <= count($sliderArr) ; $x++) {
-            echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
-        }
-        echo('</div>');
         echo('</div>');
     }
+    echo('<div class="dot-div" style="text-align:center">');
+    for($x = 1; $x <= count($sliderArr) ; $x++) {
+        echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
+    }
+    echo('</div>');
 }
 
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
