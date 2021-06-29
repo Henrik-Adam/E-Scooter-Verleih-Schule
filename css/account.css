@@ -72,5 +72,6 @@ footer {
 @media screen and (max-width: 850px) {
     .reservation {
         margin-top: 20px;
+        font-size: 2.1vw;
     }
 }
