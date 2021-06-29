@@ -42,9 +42,11 @@ session_start();
     $data = file_get_contents($file);
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
-    foreach ($jsonArr as $outArr) {
-      if ($userName == $outArr["user_name"]) {
-        $userData = $outArr;
+    if (!empty($jsonArr)) {
+      foreach ($jsonArr as $outArr) {
+        if ($userName == $outArr["user_name"]) {
+          $userData = $outArr;
+        }
       }
     }
     if (isset($userData)) {
