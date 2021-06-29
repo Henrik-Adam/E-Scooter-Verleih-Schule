@@ -74,6 +74,49 @@ function getReservationData($userId)
     }
 }
 
+function getFileHeader() {
+    $imgArr = glob("./img/products/*.jpg");
+    for($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
+        $search = "./img/products/".$i."_";
+        $imgArr[$i-1] = str_replace($search,"" , $imgArr[$i-1]);
+    }
+    $imgArr = str_replace(".jpg","" , $imgArr);
+    return $imgArr;
+}
+
+function getFileName() {
+    $imgArr = glob("./img/products/*.jpg");
+    return $imgArr;
+}
+
+function assembleArr() {
+    $header = getFileHeader();
+    $name = getFileName();
+
+    for($i = 0; $i < count($header) ; $i++) {
+        $assembleInfos[] = ["header" => $header[$i], "name" => $name[$i]];
+    }
+    return $assembleInfos;
+
+}
+
+function createSlider() {
+    $sliderArr = assembleArr();
+    $i = 1;
+    foreach($sliderArr as $slide) {
+        echo('<div class="mySlides">');
+        echo('<div class="numbertext">'.$i++.'/'.count($sliderArr).'</div>');
+        echo('<img src="'.$slide["name"].'" style="width:100%">');
+        echo('<div class="dot-div" style="text-align:center">');
+        echo('<div class="text">'.$slide["header"].'</div>');
+        for($x = 1; $x <= count($sliderArr) ; $x++) {
+            echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
+        }
+        echo('</div>');
+        echo('</div>');
+    }
+}
+
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
 $userEmail = isset($userData['user_email']) ? $userData['user_email'] : "";
 $userRoad = isset($userData['user_address']['user_road']) ? $userData['user_address']['user_road'] : "";
@@ -213,45 +256,7 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
     </div>
     <div id="slider-div">
         <div class="slideshow-container">
-            <div class="mySlides fade">
-                <div class="numbertext">1 / 3</div>
-                <img src="./img/pics/1000x350.jpeg" style="width:100%">
-
-                <div class="dot-div" style="text-align:center">
-                <div class="text">Caption Text</div>
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
-                </div>
-            </div>
-
-            <div class="mySlides fade">
-                <div class="numbertext">2 / 3</div>
-                <img src="./img/pics/1000x350.jpeg" style="width:100%">
-
-                <div class="dot-div" style="text-align:center">
-                <div class="text">Caption Two</div>
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
-                </div>
-            </div>
-
-            <div class="mySlides fade">
-                <div class="numbertext">3 / 3</div>
-                <img src="./img/pics/1000x350.jpeg" style="width:100%">
-                
-                <div class="dot-div" style="text-align:center">
-                <div class="text">Caption Three</div>
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
-                </div>
-            </div>
-
+            <?php createSlider() ?>
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
