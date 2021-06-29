@@ -105,7 +105,7 @@ function createSlider() {
     foreach($sliderArr as $slide) {
         echo('<div class="slider">');
         echo('<img src="'.$slide["name"].'" style="width:100%">');
-        echo('<div class="text"><h3>'.$slide["header"].'</h3><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. </p></div>');
+        echo('<div class="text"><h1>'.$slide["header"].'</h1></div>');
         echo('</div>');
     }
     echo('<div class="dot-div" style="text-align:center">');

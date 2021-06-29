@@ -111,7 +111,7 @@ function createTable($userId)
   } else {
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
-    echo "<tr><td>Sie haben noch keine Reservierungen!</td>";
+    echo "<tr><td colspan=5 style='text-align: center;'><b>Sie haben noch keine Reservierungen!</b></td>";
     echo "</table>";
     echo "</div>";
   }
