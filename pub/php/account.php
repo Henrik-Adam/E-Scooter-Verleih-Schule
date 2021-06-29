@@ -16,6 +16,7 @@ session_start();
 </head>
 <?php
 require('support_logic.php');
+$userId = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ./login.php");
@@ -38,7 +39,7 @@ function getReservationData($userId)
   if (array_key_exists("city", $_POST)) {
     $city = testInput($_POST["city"]);
   }
-  if(empty($city) && empty($postalNr) && empty($postalRoad)) {
+  if (empty($city) && empty($postalNr) && empty($postalRoad)) {
     $_SESSION['address_insert_fail'] = false;
   } elseif (strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
     $_SESSION['address_insert_fail'] = false;
@@ -48,8 +49,6 @@ function getReservationData($userId)
     $_SESSION['address_insert_fail'] = true;
   }
 }
-
-$userId = $_SESSION['user_id'];
 
 function getUserOrders($userId)
 {
