@@ -192,7 +192,7 @@ function createTable($userId)
   <footer>
     <div class="flex-footer">
       <div>
-        <a href="#search">Impressum</a>
+        <a href="./impressum.php">Impressum</a>
         <a href="#search">Datenschutz</a>
         <a href="#search">AGB</a>
         <a href="#search">Support</a>
