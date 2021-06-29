@@ -19,7 +19,7 @@ require('support_logic.php');
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ./login.php");
-} else $userId = $_SESSION['user_id']; 
+} else $userId = $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   getReservationData($userId);
@@ -137,7 +137,7 @@ function createTable($userId)
     </div>
     <div class="overview-info-box">
       <?php
-        createAddressOverview($userId);
+      createAddressOverview($userId);
       ?>
       <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Addressen bearbeiten</button>
     </div>
@@ -146,7 +146,7 @@ function createTable($userId)
     </div>
   </div>
   <?php
-  if(isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
+  if (isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
     echo ("<div class='success'>Ihre Bestellung wurde erfolgreich verarbeitet!</div>");
     $_SESSION['order_success'] = false;
   }
