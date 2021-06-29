@@ -10,6 +10,7 @@ session_start();
     <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/notifications.css">
+    <link rel="stylesheet" href="./css/slider.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Home</title>
@@ -18,7 +19,7 @@ session_start();
 
 require('./pub/php/support_logic.php');
 
-if(isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else $userId = 0;
 
@@ -66,7 +67,7 @@ function getReservationData($userId)
         header("Location: ./pub/php/account.php");
         $_SESSION['order_success'] = true;
         $_SESSION['not_login'] = false;
-    } elseif($userId == 0) {
+    } elseif ($userId == 0) {
         $_SESSION['not_login'] = true;
     } else {
         $_SESSION['order_fail'] = true;
@@ -81,7 +82,9 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
 ?>
 
 <body>
-    <noscript><div class='error'>ERROR: Dein Browser Untersützt kein Javascript! Aktiviere Javascript um alle Funktionen nutzten zu können!</div></noscript>
+    <noscript>
+        <div class='error'>ERROR: Dein Browser Untersützt kein Javascript! Aktiviere Javascript um alle Funktionen nutzten zu können!</div>
+    </noscript>
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
@@ -103,13 +106,13 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
             </div>
         </div>
     </div>
-    <?php 
-    if(isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
-        echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
-    } 
-    if(isset($_SESSION['not_login']) && $_SESSION['not_login']) {
-        echo("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
-    } 
+    <?php
+    if (isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
+        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+    }
+    if (isset($_SESSION['not_login']) && $_SESSION['not_login']) {
+        echo ("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
+    }
     ?>
     <div class="info_container">
         <div class="info_item">
@@ -165,28 +168,28 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
                 if ($userId == 0) {
                     echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
                 }
-                if(isset($_SESSION['order_fail'])) {
-                    if($_SESSION['order_fail']) {
-                    echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+                if (isset($_SESSION['order_fail'])) {
+                    if ($_SESSION['order_fail']) {
+                        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
                     }
-                } 
+                }
                 ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Name" name="name" value="<?php echo($userName);?>" required>
+                <input type="text" placeholder="Name" name="name" value="<?php echo ($userName); ?>" required>
 
                 <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Email" name="email" value="<?php echo($userEmail);?>" required>
+                <input type="text" placeholder="Email" name="email" value="<?php echo ($userEmail); ?>" required>
 
                 <label for="postal-road"><b>Straße und Hausnummer</b></label>
-                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo($userRoad);?>" required>
+                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo ($userRoad); ?>" required>
 
                 <label for="postal-nr"><b>PLZ</b></label>
-                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo($userPostal);?>"required>
+                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo ($userPostal); ?>" required>
 
                 <label for="city"><b>Stadt</b></label>
-                <input type="text" placeholder="Stadt" name="city" value="<?php echo($userCity);?>" required>
+                <input type="text" placeholder="Stadt" name="city" value="<?php echo ($userCity); ?>" required>
 
                 <label for="s-type"><b>E-Scooter Typ</b></label>
                 <select id="s-type" name="s-type" required>
@@ -208,7 +211,51 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
             </div>
         </form>
     </div>
+    <div id="slider-div">
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <img src="./img/pics/1000x350.jpeg" style="width:100%">
 
+                <div class="dot-div" style="text-align:center">
+                <div class="text">Caption Text</div>
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                </div>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <img src="./img/pics/1000x350.jpeg" style="width:100%">
+
+                <div class="dot-div" style="text-align:center">
+                <div class="text">Caption Two</div>
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                </div>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <img src="./img/pics/1000x350.jpeg" style="width:100%">
+                
+                <div class="dot-div" style="text-align:center">
+                <div class="text">Caption Three</div>
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                </div>
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+    </div>
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_medium">
@@ -236,6 +283,7 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
             </div>
         </div>
     </footer>
+    <script src="./js/slider.js"></script>
     <script src="./js/modal_forms.js"></script>
 </body>
 
