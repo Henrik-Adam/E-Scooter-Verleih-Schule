@@ -70,6 +70,7 @@ session_start();
     $_SESSION['user_id'] = $userId;
     $_SESSION['user_crypt'] = $userCrypt;
     $_SESSION['welcome_id'] = 2;
+    $_SESSION['not_login'] = false;
   }
 
   function logLogin($userName)
