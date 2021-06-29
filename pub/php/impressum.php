@@ -24,7 +24,6 @@ require('support_logic.php');
             <a href="./account.php">Account</a>
         </div>
     </div>
-
     <div class="impressum"> 
         <div>
             <h2>Impressum</h2>
@@ -36,8 +35,6 @@ require('support_logic.php');
         <div class="info">Gratulation Sie wurden erfolgreich rickrolled!</div>
         <iframe width="1000" height="450" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0"></iframe>
     </div>
-
-
     <footer>
         <div class="flex-footer">
             <div>
