@@ -277,7 +277,7 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="#search">Impressum</a>
+                <a href="./pub/php/impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
