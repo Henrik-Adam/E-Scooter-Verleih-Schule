@@ -73,7 +73,6 @@ function createAccountOverview($userId)
   }
 }
 
-
 function createAddressOverview($userId)
 {
   $file = "../../file_save/user-data.json";

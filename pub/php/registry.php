@@ -129,11 +129,11 @@ session_start();
       <input type="password" id="user_confirm_pwd" name="confirmedPassword" placeholder="Password verify">
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Confirmation</label>
-      <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> both have to be accepted in order to use our service.</div>
+      <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> beides muss akzeptiert werden!</div>
       <div class="flex-user-form">
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
-        <button class="button"><a href="./login.php">Sign In</a></button>
+        <button class="button"><a href="./login.php">Anmeldung</a></button>
       </div>
     </form>
   </div>
