@@ -102,12 +102,10 @@ function assembleArr() {
 
 function createSlider() {
     $sliderArr = assembleArr();
-    $i = 1;
     foreach($sliderArr as $slide) {
-        echo('<div class="mySlides">');
-        echo('<div class="numbertext">'.$i++.'/'.count($sliderArr).'</div>');
+        echo('<div class="slider">');
         echo('<img src="'.$slide["name"].'" style="width:100%">');
-        echo('<div class="text">'.$slide["header"].'</div>');
+        echo('<div class="text"><h3>'.$slide["header"].'</h3><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. </p></div>');
         echo('</div>');
     }
     echo('<div class="dot-div" style="text-align:center">');
@@ -145,7 +143,6 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
                     an Individualmobilität so hoch wie nie (was sich zum Beispiel auch am steigenden Verkauf von Fahrrädern ablesen lässt). E-Tretroller erfüllen besonders die Nachfrage nach Sicherheit und Hygiene (im Gegensatz zum ÖPNV).</p>
                 <p>Wenn Sie einen E-Roller mieten, sind Sie also individuell mobil und müssen sich keine Sorgen machen, hygienische Risiken einzugehen oder Abstandsregeln nicht einhalten zu können.</p>
                 <p>Gerne können sie uns auch in unserer Filiale besuchen und dort ohne Reservierung einen Scooter mieten.</p>
-                <button class="button">Read More</button>
             </div>
         </div>
     </div>
