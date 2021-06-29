@@ -62,7 +62,7 @@ function getReservationData($userId)
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
-        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
+        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => encrypt($email), "postal_road" => encrypt($postalRoad), "postal_nr" => encrypt($postalNr), "city" => encrypt($city), "scooter_type" => encrypt($sType), "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
         header("Location: ./pub/php/account.php");
         $_SESSION['order_success'] = true;
@@ -116,10 +116,10 @@ function createSlider() {
 }
 
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
-$userEmail = isset($userData['user_email']) ? $userData['user_email'] : "";
-$userRoad = isset($userData['user_address']['user_road']) ? $userData['user_address']['user_road'] : "";
-$userPostal = isset($userData['user_address']['user_postal']) ? $userData['user_address']['user_postal'] : "";
-$userCity = isset($userData['user_address']['user_city']) ? $userData['user_address']['user_city'] : "";
+$userEmail = isset($userData['user_email']) ? decrypt($userData['user_email']) : "";
+$userRoad = isset($userData['user_address']['user_road']) ? decrypt($userData['user_address']['user_road']) : "";
+$userPostal = isset($userData['user_address']['user_postal']) ? decrypt($userData['user_address']['user_postal']) : "";
+$userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['user_address']['user_city']) : "";
 ?>
 
 <body>
