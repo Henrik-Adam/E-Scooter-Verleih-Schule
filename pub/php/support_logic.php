@@ -32,6 +32,7 @@ function decrypt($ciphertext) {
       return $original_plaintext;
   } else return false;
 }
+
 function testInput($data) {
     $data = trim($data);
     $data = stripslashes($data);

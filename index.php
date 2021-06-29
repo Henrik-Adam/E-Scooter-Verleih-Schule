@@ -10,6 +10,7 @@ session_start();
     <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/notifications.css">
+    <link rel="stylesheet" href="./css/slider.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Home</title>
@@ -18,7 +19,7 @@ session_start();
 
 require('./pub/php/support_logic.php');
 
-if(isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else $userId = 0;
 
@@ -61,27 +62,70 @@ function getReservationData($userId)
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
-        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => $email, "postal_road" => $postalRoad, "postal_nr" => $postalNr, "city" => $city, "scooter_type" => $sType, "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
+        $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => encrypt($email), "postal_road" => encrypt($postalRoad), "postal_nr" => encrypt($postalNr), "city" => encrypt($city), "scooter_type" => encrypt($sType), "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
         header("Location: ./pub/php/account.php");
         $_SESSION['order_success'] = true;
         $_SESSION['not_login'] = false;
-    } elseif($userId == 0) {
+    } elseif ($userId == 0) {
         $_SESSION['not_login'] = true;
     } else {
         $_SESSION['order_fail'] = true;
     }
 }
 
+function getFileHeader() {
+    $imgArr = glob("./img/products/*.jpg");
+    for($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
+        $search = "./img/products/".$i."_";
+        $imgArr[$i-1] = str_replace($search,"" , $imgArr[$i-1]);
+    }
+    $imgArr = str_replace(".jpg","" , $imgArr);
+    return $imgArr;
+}
+
+function getFileName() {
+    $imgArr = glob("./img/products/*.jpg");
+    return $imgArr;
+}
+
+function assembleArr() {
+    $header = getFileHeader();
+    $name = getFileName();
+
+    for($i = 0; $i < count($header) ; $i++) {
+        $assembleInfos[] = ["header" => $header[$i], "name" => $name[$i]];
+    }
+    return $assembleInfos;
+
+}
+
+function createSlider() {
+    $sliderArr = assembleArr();
+    foreach($sliderArr as $slide) {
+        echo('<div class="slider">');
+        echo('<img src="'.$slide["name"].'" style="width:100%">');
+        echo('<div class="text"><h3>'.$slide["header"].'</h3><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. </p></div>');
+        echo('</div>');
+    }
+    echo('<div class="dot-div" style="text-align:center">');
+    for($x = 1; $x <= count($sliderArr) ; $x++) {
+        echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
+    }
+    echo('</div>');
+}
+
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
-$userEmail = isset($userData['user_email']) ? $userData['user_email'] : "";
-$userRoad = isset($userData['user_address']['user_road']) ? $userData['user_address']['user_road'] : "";
-$userPostal = isset($userData['user_address']['user_postal']) ? $userData['user_address']['user_postal'] : "";
-$userCity = isset($userData['user_address']['user_city']) ? $userData['user_address']['user_city'] : "";
+$userEmail = isset($userData['user_email']) ? decrypt($userData['user_email']) : "";
+$userRoad = isset($userData['user_address']['user_road']) ? decrypt($userData['user_address']['user_road']) : "";
+$userPostal = isset($userData['user_address']['user_postal']) ? decrypt($userData['user_address']['user_postal']) : "";
+$userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['user_address']['user_city']) : "";
 ?>
 
 <body>
-    <noscript><div class='error'>ERROR: Dein Browser Untersützt kein Javascript! Aktiviere Javascript um alle Funktionen nutzten zu können!</div></noscript>
+    <noscript>
+        <div class='error'>ERROR: Dein Browser Untersützt kein Javascript! Aktiviere Javascript um alle Funktionen nutzten zu können!</div>
+    </noscript>
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
@@ -99,17 +143,16 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
                     an Individualmobilität so hoch wie nie (was sich zum Beispiel auch am steigenden Verkauf von Fahrrädern ablesen lässt). E-Tretroller erfüllen besonders die Nachfrage nach Sicherheit und Hygiene (im Gegensatz zum ÖPNV).</p>
                 <p>Wenn Sie einen E-Roller mieten, sind Sie also individuell mobil und müssen sich keine Sorgen machen, hygienische Risiken einzugehen oder Abstandsregeln nicht einhalten zu können.</p>
                 <p>Gerne können sie uns auch in unserer Filiale besuchen und dort ohne Reservierung einen Scooter mieten.</p>
-                <button class="button">Read More</button>
             </div>
         </div>
     </div>
-    <?php 
-    if(isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
-        echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
-    } 
-    if(isset($_SESSION['not_login']) && $_SESSION['not_login']) {
-        echo("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
-    } 
+    <?php
+    if (isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
+        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+    }
+    if (isset($_SESSION['not_login']) && $_SESSION['not_login']) {
+        echo ("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
+    }
     ?>
     <div class="info_container">
         <div class="info_item">
@@ -165,28 +208,28 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
                 if ($userId == 0) {
                     echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
                 }
-                if(isset($_SESSION['order_fail'])) {
-                    if($_SESSION['order_fail']) {
-                    echo("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+                if (isset($_SESSION['order_fail'])) {
+                    if ($_SESSION['order_fail']) {
+                        echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
                     }
-                } 
+                }
                 ?>
                 <p>Bitte füllen sie alle unten angebenen Felder aus.</p>
                 <hr>
                 <label for="name"><b>Name</b></label>
-                <input type="text" placeholder="Name" name="name" value="<?php echo($userName);?>" required>
+                <input type="text" placeholder="Name" name="name" value="<?php echo ($userName); ?>" required>
 
                 <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Email" name="email" value="<?php echo($userEmail);?>" required>
+                <input type="text" placeholder="Email" name="email" value="<?php echo ($userEmail); ?>" required>
 
                 <label for="postal-road"><b>Straße und Hausnummer</b></label>
-                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo($userRoad);?>" required>
+                <input type="text" placeholder="Straße" name="postal-road" value="<?php echo ($userRoad); ?>" required>
 
                 <label for="postal-nr"><b>PLZ</b></label>
-                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo($userPostal);?>"required>
+                <input type="number" placeholder="Postleitzahl" name="postal-nr" value="<?php echo ($userPostal); ?>" required>
 
                 <label for="city"><b>Stadt</b></label>
-                <input type="text" placeholder="Stadt" name="city" value="<?php echo($userCity);?>" required>
+                <input type="text" placeholder="Stadt" name="city" value="<?php echo ($userCity); ?>" required>
 
                 <label for="s-type"><b>E-Scooter Typ</b></label>
                 <select id="s-type" name="s-type" required>
@@ -208,7 +251,13 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
             </div>
         </form>
     </div>
-
+    <div id="slider-div">
+        <div class="slideshow-container">
+            <?php createSlider() ?>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+    </div>
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_medium">
@@ -228,7 +277,7 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="#search">Impressum</a>
+                <a href="./pub/php/impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
@@ -236,6 +285,7 @@ $userCity = isset($userData['user_address']['user_city']) ? $userData['user_addr
             </div>
         </div>
     </footer>
+    <script src="./js/slider.js"></script>
     <script src="./js/modal_forms.js"></script>
 </body>
 

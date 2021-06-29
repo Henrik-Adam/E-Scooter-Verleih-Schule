@@ -16,6 +16,7 @@ session_start();
 </head>
 <?php
 require('support_logic.php');
+$userId = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ./login.php");
@@ -38,25 +39,27 @@ function getReservationData($userId)
   if (array_key_exists("city", $_POST)) {
     $city = testInput($_POST["city"]);
   }
-  if (strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
-    $_SESSION['address_insert_fail'] = true;
-    $userDataArr = ["user_road" => $postalRoad, "user_postal" => $postalNr, "user_city" => $city];
+  if (empty($city) && empty($postalNr) && empty($postalRoad)) {
+    $_SESSION['address_insert_fail'] = false;
+  } elseif (strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1) {
+    $_SESSION['address_insert_fail'] = false;
+    $userDataArr = ["user_road" => encrypt($postalRoad), "user_postal" => encrypt($postalNr), "user_city" => encrypt($city)];
     updateUser($file, $userId, $userDataArr);
   } else {
-    $_SESSION['order_fail'] = true;
+    $_SESSION['address_insert_fail'] = true;
   }
 }
-
-$userId = $_SESSION['user_id'];
 
 function getUserOrders($userId)
 {
   $fileOrder = "../../file_save/order-data.json";
   $jsonArr = getAllOrderData($fileOrder, $userId);
   $orderDataArr = [];
-  foreach ($jsonArr as $orderData) {
-    if ($userId == $orderData["user_id"]) {
-      $orderDataArr[] = $orderData;
+  if ($jsonArr != 0) {
+    foreach ($jsonArr as $orderData) {
+      if ($userId == $orderData["user_id"]) {
+        $orderDataArr[] = $orderData;
+      }
     }
   }
   return $orderDataArr;
@@ -68,7 +71,7 @@ function createAccountOverview($userId)
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
     echo '<p><strong>Name: </strong>' . $userDataArr['user_name'] . '</p>';
-    echo '<p><strong>Email: </strong>' . $userDataArr['user_email'] . '</p>';
+    echo '<p><strong>Email: </strong>' . decrypt($userDataArr['user_email']) . '</p>';
     echo '<p><strong>Passwort: </strong>******</p>';
   }
 }
@@ -82,15 +85,15 @@ function createAddressOverview($userId)
       $roadAndNr = $userDataArr["user_address"]["user_road"];
     } else $roadAndNr = "";
     if (array_key_exists("user_postal", $userDataArr["user_address"])) {
-      $postal = $userDataArr["user_address"]["user_postal"];
+      $postal = decrypt($userDataArr["user_address"]["user_postal"]);
     } else $postal = "";
     if (array_key_exists("user_city", $userDataArr["user_address"])) {
       $city = $userDataArr["user_address"]["user_city"];
     } else $city = "";
 
-    echo '<p><strong>Straße und Hausnummer: </strong>' . $roadAndNr . '</p>';
+    echo '<p><strong>Straße und Hausnummer: </strong>' . decrypt($roadAndNr) . '</p>';
     echo '<p><strong>PLZ: </strong>' . $postal . '</p>';
-    echo '<p><strong>Stadt: </strong>' . $city . '</p>';
+    echo '<p><strong>Stadt: </strong>' . decrypt($city) . '</p>';
   }
 }
 
@@ -101,7 +104,7 @@ function createTable($userId)
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
     foreach ($userOrderDataArr as $row) {
-      echo "<tr><td>" . $row['order_id'] . "</td><td>" . escooterType($row['scooter_type']) . "</td><td>" . convertReversedDate($row['res_start']) . " bis " . convertReversedDate($row['res_end']) . "</td><td>" . $row['time'] . "</td>" . ifTimeEx($row['res_end']) . "</tr>";
+      echo "<tr><td>" . $row['order_id'] . "</td><td>" . escooterType(decrypt($row['scooter_type'])) . "</td><td>" . convertReversedDate($row['res_start']) . " bis " . convertReversedDate($row['res_end']) . "</td><td>" . $row['time'] . "</td>" . ifTimeEx($row['res_end']) . "</tr>";
     }
     echo "</table>";
     echo "</div>";
@@ -146,7 +149,7 @@ function createTable($userId)
   </div>
   <?php
   if (isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
-    echo ("<div class='success'>Ihre Bestellung wurde erfolgreich verarbeitet!</div>");
+    echo ("<div class='success' style='margin-bottom: 10px;'>Ihre Bestellung wurde erfolgreich verarbeitet!</div>");
     $_SESSION['order_success'] = false;
   }
   createTable($userId);
@@ -161,6 +164,7 @@ function createTable($userId)
         if (isset($_SESSION['address_insert_fail'])) {
           if ($_SESSION['address_insert_fail']) {
             echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+            $_SESSION['address_insert_fail'] = false;
           }
         }
         ?>
