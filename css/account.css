@@ -1,0 +1,76 @@
+.reservation {
+    border-collapse: collapse;
+    width: 95%;
+}
+
+.reservation td,
+.reservation th {
+    border-top: 1px solid #a6a6a6;
+    padding: 0.6%;
+    word-wrap: break-word;
+}
+
+.reservation tr:hover {
+    background-color: #ddd;
+}
+
+.reservation th {
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: left;
+    background-color: navy;
+    color: white;
+}
+
+footer {
+    height: 8% !important;
+}
+
+.table-reservation {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.overview-info-box {
+    margin-bottom: 4%;
+}
+
+.running {
+    color: #4f8a10;
+    background-color: #DFF2BF;
+    text-align: center;
+    font-weight: bold;
+}
+
+.expired {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    text-align: center;
+    font-weight: bold;
+}
+
+.account-overview {
+    margin-top: 1% !important;
+    width: 95%;
+    margin: auto;
+}
+
+.overview-head-boxes {
+    background-color: navy;
+    color: white;
+    margin-bottom: 24px;
+    padding: 8px 16px;
+    position: relative;
+}
+
+.overview-head-boxes strong {
+    font-size: 21px;
+}
+
+@media screen and (max-width: 850px) {
+    .reservation {
+        font-size: 2.1vw;
+    }
+}
