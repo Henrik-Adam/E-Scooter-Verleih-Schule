@@ -5,12 +5,12 @@ session_start();
 <html>
 
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/global.css">
     <link rel="stylesheet" href="../../css/nav.css">
     <link rel="stylesheet" href="../../css/others.css">
     <link rel="stylesheet" href="../../css/notifications.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
     <title>Impressum</title>
 </head>
 <?php

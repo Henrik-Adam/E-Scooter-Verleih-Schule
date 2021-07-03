@@ -7,12 +7,12 @@ session_start();
 <html>
 
 <head>
+  <meta charset="utf-8">
   <link rel="stylesheet" href="../../css/global.css">
   <link rel="stylesheet" href="../../css/nav.css">
   <link rel="stylesheet" href="../../css/notifications.css">
   <link rel="stylesheet" href="../../css/login_system.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
   <title>Registrieren</title>
 </head>
 
@@ -30,16 +30,19 @@ session_start();
     $cookieConfirm = testInput(isset($_POST["cookieConfirm"]));
     $userPwd = testInput($_POST["password"]);
     $userConfirmedPwd = testInput($_POST["confirmedPassword"]);
-    if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1") {
+    $adultConform = $_POST["cookie_confirm"];
+    if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1" && $adultConform >= 18) {
       userValidation($userName, $userEmail, $userPwd, $cookieConfirm);
     } elseif (strlen($userPwd) <= 5 && strlen($userConfirmedPwd) <= 5) {
-      echo ("<div class='warning'>WARNING! The passwords are to short to be secure. Please use a longer password.</div>");
+      echo ("<div class='warning'>WARNING! Das Passwort ist zu kurz! Bitte wählen Sie ein längeres.</div>");
     } elseif ($userPwd != $userConfirmedPwd) {
-      echo ("<div class='error'>ERROR! The passwords are different. Please re-enter</div>");
+      echo ("<div class='error'>ERROR! Die Passwörter sind unterschiedlich! Bitte versuchen Sie es erneut!</div>");
     } elseif ($cookieConfirm != "1") {
       echo ("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
-    } else echo ("<div class='error'>ERROR! No valid Data Input!</div>");
-  } else echo ("<div class='info'>INFO! Please Sign up!</div>");
+    } elseif ($adultConform < 18) {
+      echo ("<div class='warning'>Warunung! Sie haben noch nicht das passende Alter!</div>");
+    } else echo ("<div class='error'>ERROR! Kein gültiger Dateneintrag!</div>");
+  } else echo ("<div class='info'>INFO! Bitte melden Sie sich an!</div>");
 
   function checkIfUserExist($userName)
   {
@@ -126,10 +129,12 @@ session_start();
       <input type="text" id="user_name" name="name" placeholder="Your Username">
       <label for="user_email">Email</label>
       <input type="email" id="user_email" name="email" placeholder="Your Email">
-      <label for="user_pwd">Password</label>
+      <label for="user_pwd">Passwort</label>
       <input type="password" id="user_pwd" name="password" placeholder="Password">
-      <label for="user_confirm_pwd">Password verify</label>
+      <label for="user_confirm_pwd">Passwort bestätigen</label>
       <input type="password" id="user_confirm_pwd" name="confirmedPassword" placeholder="Password verify">
+      <label for="adult_confirm">Alter Bestätigen</label>
+      <input type="date" id="adult_confirm" name="adult_confirm" required>
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Confirmation</label>
       <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> beides muss akzeptiert werden!</div>
