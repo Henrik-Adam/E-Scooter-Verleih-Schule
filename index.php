@@ -74,45 +74,48 @@ function getReservationData($userId)
     }
 }
 
-function getFileHeader() {
+function getFileHeader()
+{
     $imgArr = glob("./img/products/*.jpg");
-    for($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
-        $search = "./img/products/".$i."_";
-        $imgArr[$i-1] = str_replace($search,"" , $imgArr[$i-1]);
+    for ($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
+        $search = "./img/products/" . $i . "_";
+        $imgArr[$i - 1] = str_replace($search, "", $imgArr[$i - 1]);
     }
-    $imgArr = str_replace(".jpg","" , $imgArr);
+    $imgArr = str_replace(".jpg", "", $imgArr);
     return $imgArr;
 }
 
-function getFileName() {
+function getFileName()
+{
     $imgArr = glob("./img/products/*.jpg");
     return $imgArr;
 }
 
-function assembleArr() {
+function assembleArr()
+{
     $header = getFileHeader();
     $name = getFileName();
 
-    for($i = 0; $i < count($header) ; $i++) {
+    for ($i = 0; $i < count($header); $i++) {
         $assembleInfos[] = ["header" => $header[$i], "name" => $name[$i]];
     }
     return $assembleInfos;
-
 }
 
-function createSlider() {
+function createSlider()
+{
     $sliderArr = assembleArr();
-    foreach($sliderArr as $slide) {
-        echo('<div class="slider">');
-        echo('<img src="'.$slide["name"].'" style="width:100%">');
-        echo('<div class="text"><h1>'.$slide["header"].'</h1></div>');
-        echo('</div>');
+    foreach ($sliderArr as $slide) {
+        echo ('<div class="slider">');
+        echo ('<img src="' . $slide["name"] . '" style="width:100%">');
+        echo ('<div class="text"><h1>' . $slide["header"] . '</h1></div>');
+        echo ('</div>');
     }
-    echo('<div class="dot-div" style="text-align:center">');
-    for($x = 1; $x <= count($sliderArr) ; $x++) {
-        echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
+    echo ('<div class="dot-div" style="text-align:center">');
+    for ($x = 1; $x <= count($sliderArr); $x++) {
+        echo ('<span class="dot" onclick="currentSlide(' . $x . ')"></span>');
     }
-    echo('</div>');
+    echo ('</div>');
 }
 
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
@@ -120,6 +123,7 @@ $userEmail = isset($userData['user_email']) ? decrypt($userData['user_email']) :
 $userRoad = isset($userData['user_address']['user_road']) ? decrypt($userData['user_address']['user_road']) : "";
 $userPostal = isset($userData['user_address']['user_postal']) ? decrypt($userData['user_address']['user_postal']) : "";
 $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['user_address']['user_city']) : "";
+$navIf = $userId != 0 ? "Account" : "Sign In" ;
 ?>
 
 <body>
@@ -129,9 +133,19 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
-            <a href="./pub/php/account.php">Account</a>
+            <a href="./pub/php/account.php"><?php echo($navIf) ?></a>
         </div>
     </div>
+    <?php
+    $sessionUserName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : "";
+    if (isset($_SESSION['welcome_id']) && $_SESSION['welcome_id']) {
+        echo ("<div class='info' style='margin-top: 30px'>Willkommen zurück " . $sessionUserName . "</div>");
+        $_SESSION['welcome_id'] = false;
+    } elseif(isset($_SESSION['user_logout']) && $_SESSION['user_logout']) {
+        echo ("<div class='info' style='margin-top: 30px'>Du wurdest erfolgreich ausgelogt</div>");
+        $_SESSION['user_logout'] = false;
+    }
+    ?>
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
