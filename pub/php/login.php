@@ -87,7 +87,7 @@ session_start();
   <div class="nav-parent" style="position: relative">
     <div class="nav">
       <a href="../../index.php">Home</a>
-      <a href="./account.php">Account</a>
+      <a href="account.php">Account</a>
     </div>
   </div>
   <div class="user-login-form">
@@ -102,18 +102,18 @@ session_start();
       <div class="flex-user-form">
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
-        <button><a href="./registry.php">Zur Registrierung</a></button>
+        <button><a href="registry.php">Zur Registrierung</a></button>
       </div>
     </form>
   </div>
   <footer style="position: fixed">
     <div class="flex-footer">
       <div>
-        <a href="./impressum.php">Impressum</a>
+        <a href="impressum.php">Impressum</a>
         <a href="#search">Datenschutz</a>
         <a href="#search">AGB</a>
         <a href="#search">Support</a>
-        <a href="./logout.php">Logout</a>
+        <a href="logout.php">Logout</a>
       </div>
     </div>
   </footer>

@@ -21,7 +21,7 @@ require('support_logic.php');
     <div class="nav-parent">
         <div class="nav">
             <a href="../../index.php">Home</a>
-            <a href="./account.php">Account</a>
+            <a href="account.php">Account</a>
         </div>
     </div>
     <div class="impressum"> 
@@ -38,15 +38,15 @@ require('support_logic.php');
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="./impressum.php">Impressum</a>
+                <a href="impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="./logout.php">Logout</a>
+                <a href="logout.php">Logout</a>
             </div>
         </div>
     </footer>
-    <script src="./js/modal_forms.js"></script>
+    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>

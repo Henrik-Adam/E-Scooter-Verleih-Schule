@@ -6,12 +6,12 @@ session_start();
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./css/main_page.css">
-    <link rel="stylesheet" href="./css/global.css">
-    <link rel="stylesheet" href="./css/modal.css">
-    <link rel="stylesheet" href="./css/nav.css">
-    <link rel="stylesheet" href="./css/notifications.css">
-    <link rel="stylesheet" href="./css/slider.css">
+    <link rel="stylesheet" href="css/main_page.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/slider.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
 </head>
@@ -23,7 +23,7 @@ if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else $userId = 0;
 
-$userFile = "./file_save/user-data.json";
+$userFile = "file_save/user-data.json";
 $userData = getUserData($userFile, $userId);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function getReservationData($userId)
 {
-    $fileOrder = "./file_save/order-data.json";
+    $fileOrder = "file_save/order-data.json";
 
     if (array_key_exists("name", $_POST)) {
         $name = testInput($_POST["name"]);
@@ -76,9 +76,9 @@ function getReservationData($userId)
 
 function getFileHeader()
 {
-    $imgArr = glob("./img/products/*.jpg");
-    for ($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
-        $search = "./img/products/" . $i . "_";
+    $imgArr = glob("img/products/*.jpg");
+    for ($i = 1; $i <= count(glob("img/products/*.jpg")); $i++) {
+        $search = "img/products/" . $i . "_";
         $imgArr[$i - 1] = str_replace($search, "", $imgArr[$i - 1]);
     }
     $imgArr = str_replace(".jpg", "", $imgArr);
@@ -87,7 +87,7 @@ function getFileHeader()
 
 function getFileName()
 {
-    $imgArr = glob("./img/products/*.jpg");
+    $imgArr = glob("img/products/*.jpg");
     return $imgArr;
 }
 
@@ -133,7 +133,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
-            <a href="./pub/php/account.php"><?php echo($navIf) ?></a>
+            <a href="pub/php/account.php"><?php echo($navIf) ?></a>
         </div>
     </div>
     <?php
@@ -149,7 +149,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="./img/pics/escooterrunner.jpg" width="600" height="600">
+                <img src="img/pics/escooterrunner.jpg" width="600" height="600">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font" style='margin-top: 0px;'><b>Freedom</b></h1>
@@ -178,7 +178,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
                 <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="./img/pics/escooter.jpg" width="335" height="471">
+                <img src="img/pics/escooter.jpg" width="335" height="471">
             </div>
         </div>
     </div>
@@ -186,7 +186,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="./img/pics/offroadEScoouter.jpg" width="450" height="450">
+                <img src="img/pics/offroadEScoouter.jpg" width="450" height="450">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font">Offroad</h1>
@@ -208,7 +208,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
                 <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="./img/pics/escoouterFast.jpg" width="500" height="500">
+                <img src="img/pics/escoouterFast.jpg" width="500" height="500">
             </div>
         </div>
     </div>
@@ -291,16 +291,16 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="./pub/php/impressum.php">Impressum</a>
+                <a href="pub/php/impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="./pub/php/logout.php">Logout</a>
+                <a href="pub/php/logout.php">Logout</a>
             </div>
         </div>
     </footer>
-    <script src="./js/slider.js"></script>
-    <script src="./js/modal_forms.js"></script>
+    <script src="js/slider.js"></script>
+    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>
