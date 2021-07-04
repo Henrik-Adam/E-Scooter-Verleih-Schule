@@ -133,8 +133,8 @@ session_start();
       <input type="password" id="user_pwd" name="password" placeholder="Password">
       <label for="user_confirm_pwd">Passwort bestätigen</label>
       <input type="password" id="user_confirm_pwd" name="confirmedPassword" placeholder="Password verify">
-      <label for="adult_confirm">Alter Bestätigen</label>
-      <input type="date" id="adult_confirm" name="adult_confirm" required>
+      <label for="adult_confirm">Alter</label>
+      <input type="number" id="adult_confirm" name="adult_confirm" required>
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Confirmation</label>
       <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> beides muss akzeptiert werden!</div>
