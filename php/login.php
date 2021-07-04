@@ -40,7 +40,6 @@ session_start();
   {
     $file = "../file_save/user-data.json";
     $data = file_get_contents($file);
-    $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
     if (!empty($jsonArr)) {
       foreach ($jsonArr as $outArr) {
@@ -87,7 +86,7 @@ session_start();
   <div class="nav-parent" style="position: relative">
     <div class="nav">
       <a href="../index.php">Home</a>
-      <a href="account.php">Account</a>
+      <a href="account.php"><?php echo($navIf) ?></a>
     </div>
   </div>
   <div class="user-login-form">

@@ -123,7 +123,6 @@ $userEmail = isset($userData['user_email']) ? decrypt($userData['user_email']) :
 $userRoad = isset($userData['user_address']['user_road']) ? decrypt($userData['user_address']['user_road']) : "";
 $userPostal = isset($userData['user_address']['user_postal']) ? decrypt($userData['user_address']['user_postal']) : "";
 $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['user_address']['user_city']) : "";
-$navIf = $userId != 0 ? "Account" : "Sign In" ;
 ?>
 
 <body>

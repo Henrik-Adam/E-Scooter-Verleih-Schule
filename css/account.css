@@ -81,3 +81,12 @@ footer {
         font-size: 2.1vw;
     }
 }
+
+@media print {
+    .button,
+    button,
+    footer,
+    .nav-parent {
+        display: none;
+    }
+}

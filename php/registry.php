@@ -118,7 +118,7 @@ session_start();
   <div class="nav-parent">
     <div class="nav">
       <a href="../index.php">Home</a>
-      <a href="account.php">Account</a>
+      <a href="account.php"><?php echo($navIf) ?></a>
     </div>
   </div>
 
