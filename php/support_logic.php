@@ -130,4 +130,6 @@ if (isset($_SESSION['user_id'])) {
 } else $userId = 0;
 
 $navIf = $userId != 0 ? "Account" : "Sign In" ;
+$logoutIf = $userId != 0 ? "Logout" : "" ;
+
 ?>

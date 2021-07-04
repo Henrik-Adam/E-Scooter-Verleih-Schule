@@ -42,7 +42,7 @@ require('support_logic.php');
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="logout.php">Logout</a>
+                <a href="logout.php"><?php echo($logoutIf)?></a>
             </div>
         </div>
     </footer>
