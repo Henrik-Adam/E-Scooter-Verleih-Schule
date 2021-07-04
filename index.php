@@ -58,7 +58,7 @@ function getReservationData($userId)
     if (array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0) {
+    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0 && formTimeCheck($resStart, $resEnd)) {
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;

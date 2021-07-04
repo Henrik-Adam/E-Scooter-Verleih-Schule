@@ -104,12 +104,23 @@ function escooterType($type) {
   }
 }
 
-function IfTimeEx($timeEnd) {
+function formTimeCheck($timeStart, $timeEnd) {
   $today = date("d.m.Y");
-  if(strtotime($today) <= strtotime($timeEnd)){
-    return "<td class='running'>aktiv</td>";
+  if(strtotime($today) <= strtotime($timeEnd) && strtotime($today) < strtotime($timeStart)) {
+    return true;
   } else {
-    return "<td class='expired'>inaktiv</td>";
+    return false;
+  }
+}
+
+function timeStatus($timeStart, $timeEnd) {
+  $today = date("d.m.Y");
+  if(strtotime($today) <= strtotime($timeEnd)) {
+    return "<td class='running'>Reservierung aktiv </td>";
+  } elseif (strtotime($today) < strtotime($timeStart)) {
+    return "<td class='planned'>Reservierung geplant</td>";
+  } else {
+    return "<td class='expired'>Reserveriung abgelaufen</td>";
   }
 }
 
