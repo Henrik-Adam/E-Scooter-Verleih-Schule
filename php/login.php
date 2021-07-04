@@ -6,10 +6,10 @@ session_start();
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="../../css/global.css">
-  <link rel="stylesheet" href="../../css/nav.css">
-  <link rel="stylesheet" href="../../css/notifications.css">
-  <link rel="stylesheet" href="../../css/login_system.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/notifications.css">
+  <link rel="stylesheet" href="../css/login_system.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login</title>
 </head>
@@ -38,7 +38,7 @@ session_start();
 
   function userValidation($userName, $userPwd)
   {
-    $file = "../../file_save/user-data.json";
+    $file = "../file_save/user-data.json";
     $data = file_get_contents($file);
     $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
     $jsonArr = json_decode($data, true);
@@ -58,7 +58,7 @@ session_start();
     if (isset($hash) && password_verify($userPwd, $hash)) {
       setUserSession($userName, $userId, $userCrypt);
       logLogin($userName);
-      header("Location: ../../index.php");
+      header("Location: ../index.php");
     } else {
       echo "<div class='warning'>WARNING! Username or password are incorrect. Or you don't have an account yet, please create one!</div>";
     }
@@ -77,7 +77,7 @@ session_start();
   {
     $date = date("d.m.Y");
     $time = date("h:i:sa");
-    $log_file_login = fopen("../../logs/log_login.txt", "a+");
+    $log_file_login = fopen("../logs/log_login.txt", "a+");
     $log_msg = "User: %s,Date: %s,Time: %s\n";
     $log_msg = sprintf($log_msg, $userName, $date, $time);
     fwrite($log_file_login, $log_msg);
@@ -86,7 +86,7 @@ session_start();
   ?>
   <div class="nav-parent" style="position: relative">
     <div class="nav">
-      <a href="../../index.php">Home</a>
+      <a href="../index.php">Home</a>
       <a href="account.php">Account</a>
     </div>
   </div>

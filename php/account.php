@@ -6,11 +6,11 @@ session_start();
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="../../css/global.css">
-  <link rel="stylesheet" href="../../css/nav.css">
-  <link rel="stylesheet" href="../../css/modal.css">
-  <link rel="stylesheet" href="../../css/account.css">
-  <link rel="stylesheet" href="../../css/notifications.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="../css/account.css">
+  <link rel="stylesheet" href="../css/notifications.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Account</title>
 </head>
@@ -19,7 +19,7 @@ require('support_logic.php');
 $userId = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id'])) {
-  header("Location: ./login.php");
+  header("Location: login.php");
 } else $userId = $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function getReservationData($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
 
   if (array_key_exists("postal-road", $_POST)) {
     $postalRoad = testInput($_POST["postal-road"]);
@@ -52,7 +52,7 @@ function getReservationData($userId)
 
 function getUserOrders($userId)
 {
-  $fileOrder = "../../file_save/order-data.json";
+  $fileOrder = "../file_save/order-data.json";
   $jsonArr = getAllOrderData($fileOrder, $userId);
   $orderDataArr = [];
   if ($jsonArr != 0) {
@@ -67,7 +67,7 @@ function getUserOrders($userId)
 
 function createAccountOverview($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
     echo '<p><strong>Name: </strong>' . $userDataArr['user_name'] . '</p>';
@@ -78,7 +78,7 @@ function createAccountOverview($userId)
 
 function createAddressOverview($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
     if (array_key_exists("user_road", $userDataArr["user_address"])) {
@@ -121,7 +121,7 @@ function createTable($userId)
 <body>
   <div class="nav-parent">
     <div class="nav">
-      <a href="../../index.php">Home</a>
+      <a href="../index.php">Home</a>
       <a href="account.php" class="active">Account</a>
     </div>
   </div>

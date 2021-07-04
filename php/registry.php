@@ -8,10 +8,10 @@ session_start();
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="../../css/global.css">
-  <link rel="stylesheet" href="../../css/nav.css">
-  <link rel="stylesheet" href="../../css/notifications.css">
-  <link rel="stylesheet" href="../../css/login_system.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/notifications.css">
+  <link rel="stylesheet" href="../css/login_system.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registrieren</title>
 </head>
@@ -46,7 +46,7 @@ session_start();
 
   function checkIfUserExist($userName)
   {
-    $data = file_get_contents("../../file_save/user-data.json");
+    $data = file_get_contents("../file_save/user-data.json");
     if (!empty($data)) {
       $jsonArr = json_decode($data, true);
       $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
@@ -66,9 +66,8 @@ session_start();
       $cryptKey = generateCryptKey($userPwd);
       $_SESSION['user_crypt'] = $cryptKey;
       $userPwd = password_hash($userPwd, PASSWORD_BCRYPT);
-      $file = "../../file_save/user-data.json";
+      $file = "../file_save/user-data.json";
       $data = file_get_contents($file);
-      $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
       $jsonArr = json_decode($data, true);
       $userId =  isset($jsonArr) ? count($jsonArr) + 1 : 1;
       $jsonArr[] = ["user_id" => $userId, "user_name" => $userName, "user_email" => encrypt($userEmail), "user_pwd" => $userPwd, "user_crypt" => $cryptKey, "user_cookie_agb" => $cookieConfirm, "user_address" => ["user_road" => "", "user_postal" => "", "user_city" => ""]];
@@ -76,7 +75,7 @@ session_start();
       if (strlen($jsonStr) != 0) {
         file_put_contents($file, $jsonStr);
         logReg($userName);
-        header("Location: ./login.php");
+        header("Location: login.php");
       } else {
         echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
         logRegFail($userName, json_last_error_msg());
@@ -98,7 +97,7 @@ session_start();
   {
     $date = date("d.m.Y");
     $time = date("h:i:sa");
-    $log_file_reg = fopen("../../logs/log_reg_fail.txt", "a+");
+    $log_file_reg = fopen("../logs/log_reg_fail.txt", "a+");
     $log_msg = "User: %s,Date: %s,Time: %s,  %s\n";
     $log_msg = sprintf($log_msg, $userName, $date, $time, $error);
     fwrite($log_file_reg, $log_msg);
@@ -109,7 +108,7 @@ session_start();
   {
     $date = date("d.m.Y");
     $time = date("h:i:sa");
-    $log_file_reg = fopen("../../logs/log_reg.txt", "a+");
+    $log_file_reg = fopen("../logs/log_reg.txt", "a+");
     $log_msg = "User: %s,Date: %s,Time: %s\n";
     $log_msg = sprintf($log_msg, $userName, $date, $time);
     fwrite($log_file_reg, $log_msg);
@@ -118,7 +117,7 @@ session_start();
   ?>
   <div class="nav-parent">
     <div class="nav">
-      <a href="../../index.php">Home</a>
+      <a href="../index.php">Home</a>
       <a href="account.php">Account</a>
     </div>
   </div>

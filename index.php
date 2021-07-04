@@ -17,7 +17,7 @@ session_start();
 </head>
 <?php
 
-require('./pub/php/support_logic.php');
+require('php/support_logic.php');
 
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
@@ -64,7 +64,7 @@ function getReservationData($userId)
         $_SESSION['order_fail'] = false;
         $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => encrypt($email), "postal_road" => encrypt($postalRoad), "postal_nr" => encrypt($postalNr), "city" => encrypt($city), "scooter_type" => encrypt($sType), "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
-        header("Location: ./pub/php/account.php");
+        header("Location: php/account.php");
         $_SESSION['order_success'] = true;
         $_SESSION['not_login'] = false;
     } elseif ($userId == 0) {
@@ -133,7 +133,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
-            <a href="pub/php/account.php"><?php echo($navIf) ?></a>
+            <a href="php/account.php"><?php echo($navIf) ?></a>
         </div>
     </div>
     <?php
@@ -165,7 +165,7 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
         echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
     }
     if (isset($_SESSION['not_login']) && $_SESSION['not_login']) {
-        echo ("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
+        echo ("<div class='warning'>Sie müssen sich <a href='php/login.php'>anmelden</a> um Reservieren zu können!</div>");
     }
     ?>
     <div class="info_container">
@@ -291,11 +291,11 @@ $navIf = $userId != 0 ? "Account" : "Sign In" ;
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="pub/php/impressum.php">Impressum</a>
+                <a href="php/impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="pub/php/logout.php">Logout</a>
+                <a href="php/logout.php">Logout</a>
             </div>
         </div>
     </footer>

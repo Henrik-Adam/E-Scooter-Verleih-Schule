@@ -6,10 +6,10 @@ session_start();
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../../css/global.css">
-    <link rel="stylesheet" href="../../css/nav.css">
-    <link rel="stylesheet" href="../../css/others.css">
-    <link rel="stylesheet" href="../../css/notifications.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/others.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Impressum</title>
 </head>
@@ -20,7 +20,7 @@ require('support_logic.php');
 <body>
     <div class="nav-parent">
         <div class="nav">
-            <a href="../../index.php">Home</a>
+            <a href="../index.php">Home</a>
             <a href="account.php">Account</a>
         </div>
     </div>
