@@ -105,8 +105,8 @@ function escooterType($type) {
 }
 
 function formTimeCheck($timeStart, $timeEnd) {
-  $today = date("d.m.Y");
-  if(strtotime($today) <= strtotime($timeEnd) && strtotime($today) < strtotime($timeStart)) {
+  $today = strtotime(date("d.m.Y"));
+  if(strtotime($timeStart) >= $today && strtotime($timeEnd) > $today) {
     return true;
   } else {
     return false;
@@ -114,10 +114,11 @@ function formTimeCheck($timeStart, $timeEnd) {
 }
 
 function timeStatus($timeStart, $timeEnd) {
-  $today = date("d.m.Y");
-  if(strtotime($today) <= strtotime($timeEnd)) {
-    return "<td class='running'>Reservierung aktiv </td>";
-  } elseif (strtotime($today) < strtotime($timeStart)) {
+  $today = strtotime(date("d.m.Y"));
+  
+  if(strtotime($timeStart) <= $today && strtotime($timeEnd) >= $today) {
+    return "<td class='running'>Reservierung aktiv</td>";
+  } elseif(strtotime($timeStart) >= $today && strtotime($timeEnd) >= $today) {
     return "<td class='planned'>Reservierung geplant</td>";
   } else {
     return "<td class='expired'>Reserveriung abgelaufen</td>";
