@@ -62,4 +62,3 @@ Ergebnis:
 - Daten werden nicht gefunden --> Überprüfen sie die positionen der *.json Datein oder löschen sie die Daten aus diesen Datein. 
 - Datum Fehlerhaft --> Überprüfen sie ihre Systemuhr und ob Xampp die Berechtigung dafür hat. 
 - Tables oder andere CSS Styles werden nicht korrekt angezeigt. --> Wechseln sie den Browser oder clearen sie den Cache.
-- 
