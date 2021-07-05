@@ -49,7 +49,6 @@ session_start();
     $data = file_get_contents("../file_save/user-data.json");
     if (!empty($data)) {
       $jsonArr = json_decode($data, true);
-      $userName = preg_replace('/[^A-Za-z0-9\_]/', '', $userName);
       foreach ($jsonArr as $outArr) {
         if ($userName == $outArr["user_name"]) {
           return true;
