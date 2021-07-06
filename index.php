@@ -295,7 +295,6 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
                 <a href="php/impressum.php">Impressum</a>
                 <a href="php/datenschutz.php">Datenschutz</a>
                 <a href="php/agb.php">AGB</a>
-                <a href="php/support.php">Support</a>
                 <a href="php/logout.php"><?php echo($logoutIf)?></a>
             </div>
         </div>

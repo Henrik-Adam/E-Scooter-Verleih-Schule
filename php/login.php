@@ -115,7 +115,6 @@ session_start();
         <a href="impressum.php">Impressum</a>
         <a href="datenschutz.php">Datenschutz</a>
         <a href="agb.php">AGB</a>
-        <a href="support.php">Support</a>
         <a href="logout.php"><?php echo ($logoutIf) ?></a>
       </div>
     </div>
