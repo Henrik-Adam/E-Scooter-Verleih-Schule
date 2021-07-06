@@ -5,3 +5,8 @@
 .impressum div {
     margin-bottom: 3%;
 }
+
+.center-container {
+    width: 90%;
+    margin: auto;
+}

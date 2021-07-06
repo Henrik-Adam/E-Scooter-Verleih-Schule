@@ -5,25 +5,26 @@ session_start();
 <html>
 
 <head>
-    <link rel="stylesheet" href="./css/main_page.css">
-    <link rel="stylesheet" href="./css/global.css">
-    <link rel="stylesheet" href="./css/modal.css">
-    <link rel="stylesheet" href="./css/nav.css">
-    <link rel="stylesheet" href="./css/notifications.css">
-    <link rel="stylesheet" href="./css/slider.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main_page.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/slider.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
 </head>
 <?php
+error_reporting(0);
 
-require('./pub/php/support_logic.php');
+require('php/support_logic.php');
 
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else $userId = 0;
 
-$userFile = "./file_save/user-data.json";
+$userFile = "file_save/user-data.json";
 $userData = getUserData($userFile, $userId);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function getReservationData($userId)
 {
-    $fileOrder = "./file_save/order-data.json";
+    $fileOrder = "file_save/order-data.json";
 
     if (array_key_exists("name", $_POST)) {
         $name = testInput($_POST["name"]);
@@ -58,13 +59,13 @@ function getReservationData($userId)
     if (array_key_exists("res-day-end", $_POST)) {
         $resEnd = testInput($_POST["res-day-end"]);
     }
-    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0) {
+    if (strlen($name) >= 3 && strlen($email) >= 3 && strlen($postalRoad) >= 4 && strlen($city) >= 4 && $postalNr >= 1 && $userId != 0 && formTimeCheck($resStart, $resEnd)) {
         $orderId = getOrderId($fileOrder);
         $time = date("d.m.Y");
         $_SESSION['order_fail'] = false;
         $resDataArr = ["order_id" => $orderId, "name" => encrypt($name), "email" => encrypt($email), "postal_road" => encrypt($postalRoad), "postal_nr" => encrypt($postalNr), "city" => encrypt($city), "scooter_type" => encrypt($sType), "res_start" => $resStart, "res_end" => $resEnd, "user_id" => $userId, "time" => $time];
         setOrderDataInJson($fileOrder, $resDataArr);
-        header("Location: ./pub/php/account.php");
+        header("Location: php/account.php");
         $_SESSION['order_success'] = true;
         $_SESSION['not_login'] = false;
     } elseif ($userId == 0) {
@@ -74,45 +75,48 @@ function getReservationData($userId)
     }
 }
 
-function getFileHeader() {
-    $imgArr = glob("./img/products/*.jpg");
-    for($i = 1; $i <= count(glob("./img/products/*.jpg")); $i++) {
-        $search = "./img/products/".$i."_";
-        $imgArr[$i-1] = str_replace($search,"" , $imgArr[$i-1]);
+function getFileHeader()
+{
+    $imgArr = glob("img/products/*.jpg"); // img/products/<nr>_<title>.jpg
+    for ($i = 1; $i <= count(glob("img/products/*.jpg")); $i++) {
+        $search = "img/products/" . $i . "_";
+        $imgArr[$i - 1] = str_replace($search, "", $imgArr[$i - 1]);
     }
-    $imgArr = str_replace(".jpg","" , $imgArr);
+    $imgArr = str_replace(".jpg", "", $imgArr);
     return $imgArr;
 }
 
-function getFileName() {
-    $imgArr = glob("./img/products/*.jpg");
+function getFileName()
+{
+    $imgArr = glob("img/products/*.jpg"); // img/products/<nr>_<title>.jpg
     return $imgArr;
 }
 
-function assembleArr() {
+function assembleArr()
+{
     $header = getFileHeader();
     $name = getFileName();
 
-    for($i = 0; $i < count($header) ; $i++) {
+    for ($i = 0; $i < count($header); $i++) {
         $assembleInfos[] = ["header" => $header[$i], "name" => $name[$i]];
     }
     return $assembleInfos;
-
 }
 
-function createSlider() {
+function createSlider()
+{
     $sliderArr = assembleArr();
-    foreach($sliderArr as $slide) {
-        echo('<div class="slider">');
-        echo('<img src="'.$slide["name"].'" style="width:100%">');
-        echo('<div class="text"><h1>'.$slide["header"].'</h1></div>');
-        echo('</div>');
+    foreach ($sliderArr as $slide) {
+        echo ('<div class="slider">');
+        echo ('<img src="' . $slide["name"] . '" style="width:100%">');
+        echo ('<div class="text"><h1>' . $slide["header"] . '</h1></div>');
+        echo ('</div>');
     }
-    echo('<div class="dot-div" style="text-align:center">');
-    for($x = 1; $x <= count($sliderArr) ; $x++) {
-        echo('<span class="dot" onclick="currentSlide('.$x.')"></span>');
+    echo ('<div class="dot-div" style="text-align:center">');
+    for ($x = 1; $x <= count($sliderArr); $x++) {
+        echo ('<span class="dot" onclick="currentSlide(' . $x . ')"></span>');
     }
-    echo('</div>');
+    echo ('</div>');
 }
 
 $userName = isset($userData['user_name']) ? $userData['user_name'] : "";
@@ -129,13 +133,23 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <div class="nav-parent">
         <div class="nav">
             <a href="index.php" class="active">Home</a>
-            <a href="./pub/php/account.php">Account</a>
+            <a href="php/account.php"><?php echo($navIf) ?></a>
         </div>
     </div>
+    <?php
+    $sessionUserName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : "";
+    if (isset($_SESSION['welcome_id']) && $_SESSION['welcome_id']) {
+        echo ("<div class='info' style='margin-top: 30px'>Willkommen zurück " . $sessionUserName . "</div>");
+        $_SESSION['welcome_id'] = false;
+    } elseif(isset($_SESSION['user_logout']) && $_SESSION['user_logout']) {
+        echo ("<div class='info' style='margin-top: 30px'>Du wurdest erfolgreich ausgelogt</div>");
+        $_SESSION['user_logout'] = false;
+    }
+    ?>
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="./img/pics/escooterrunner.jpg" width="600" height="600">
+                <img src="img/pics/escooterrunner.jpg" width="600" height="600">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font" style='margin-top: 0px;'><b>Freedom</b></h1>
@@ -149,9 +163,10 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <?php
     if (isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
         echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+        $_SESSION['order_fail'] = false;
     }
     if (isset($_SESSION['not_login']) && $_SESSION['not_login']) {
-        echo ("<div class='warning'>Sie müssen sich <a href='./pub/php/login.php'>anmelden</a> um Reservieren zu können!</div>");
+        echo ("<div class='warning'>Sie müssen sich <a href='php/login.php'>anmelden</a> um Reservieren zu können!</div>");
     }
     ?>
     <div class="info_container">
@@ -164,7 +179,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
                 <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="./img/pics/escooter.jpg" width="335" height="471">
+                <img src="img/pics/escooter.jpg" width="335" height="471">
             </div>
         </div>
     </div>
@@ -172,7 +187,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <div class="info_container" style="background-color:#f1f1f1">
         <div class="info_item">
             <div class="info_item_small">
-                <img src="./img/pics/offroadEScoouter.jpg" width="450" height="450">
+                <img src="img/pics/offroadEScoouter.jpg" width="450" height="450">
             </div>
             <div class="info_item_big">
                 <h1 class="xlarge-font">Offroad</h1>
@@ -194,7 +209,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
                 <button class="button" onclick="document.getElementById('modalForm').style.display='block'" style="width:auto;">Zur Reservierung</button>
             </div>
             <div class="info_item_small">
-                <img src="./img/pics/escoouterFast.jpg" width="500" height="500">
+                <img src="img/pics/escoouterFast.jpg" width="500" height="500">
             </div>
         </div>
     </div>
@@ -203,7 +218,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
         <span onclick="document.getElementById('modalForm').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="container">
-                <h1>Reserveriungsformular</h1>
+                <h1>Reservierungsformular</h1>
                 <?php
                 if ($userId == 0) {
                     echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
@@ -240,7 +255,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
                 <label for="res-day-start"><b>Reservierungszeitraum</b></label>
                 <div class="flex">
                     <input type="date" id="res-day-start" name="res-day-start" required>
-                    <p> bis zum </p>
+                    <p class="invisible"> bis zum </p>
                     <input type="date" id="res-day-end" name="res-day-end" required>
                 </div>
                 <div class="flex">
@@ -277,16 +292,15 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="./pub/php/impressum.php">Impressum</a>
-                <a href="#search">Datenschutz</a>
-                <a href="#search">AGB</a>
-                <a href="#search">Support</a>
-                <a href="./pub/php/logout.php">Logout</a>
+                <a href="php/impressum.php">Impressum</a>
+                <a href="php/datenschutz.php">Datenschutz</a>
+                <a href="php/agb.php">AGB</a>
+                <a href="php/logout.php"><?php echo($logoutIf)?></a>
             </div>
         </div>
     </footer>
-    <script src="./js/slider.js"></script>
-    <script src="./js/modal_forms.js"></script>
+    <script src="js/slider.js"></script>
+    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>

@@ -104,13 +104,43 @@ function escooterType($type) {
   }
 }
 
-function IfTimeEx($timeEnd) {
-  $today = date("d.m.Y");
-  if(strtotime($today) <= strtotime($timeEnd)){
-    return "<td class='running'>aktiv</td>";
+function formTimeCheck($timeStart, $timeEnd) {
+  $today = strtotime(date("d.m.Y"));
+  if(strtotime($timeStart) >= $today && strtotime($timeEnd) > $today) {
+    return true;
   } else {
-    return "<td class='expired'>inaktiv</td>";
+    return false;
   }
 }
+
+function timeStatus($timeStart, $timeEnd) {
+  $today = strtotime(date("d.m.Y"));
+  
+  if(strtotime($timeStart) <= $today && strtotime($timeEnd) >= $today) {
+    return "<td class='running'>Reservierung aktiv</td>";
+  } elseif(strtotime($timeStart) >= $today && strtotime($timeEnd) >= $today) {
+    return "<td class='planned'>Reservierung geplant</td>";
+  } else {
+    return "<td class='expired'>Reserveriung abgelaufen</td>";
+  }
+}
+
+// logging
+
+function logging($userName, $file, $error)  {
+  $date = date("d.m.Y");
+  $time = date("h:i:sa");
+  $log_msg = "(%s %s)%s: %s\n";
+  $log_msg = sprintf($log_msg, $date, $time, $userName, $error);
+  fwrite($file, $log_msg);
+  fclose($file);
+}
+
+if (isset($_SESSION['user_id'])) {
+  $userId = $_SESSION['user_id'];
+} else $userId = 0;
+
+$navIf = $userId != 0 ? "Account" : "Sign In" ;
+$logoutIf = $userId != 0 ? "Logout" : "" ;
 
 ?>
