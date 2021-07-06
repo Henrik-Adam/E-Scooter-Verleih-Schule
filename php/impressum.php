@@ -45,7 +45,6 @@ require('support_logic.php');
             </div>
         </div>
     </footer>
-    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>

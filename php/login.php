@@ -99,7 +99,7 @@ session_start();
       <input type="password" id="user_pwd" name="password" placeholder="Your password">
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Bestätigung</label>
-      <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Informationen</a> beide
+      <div class='info'>INFO! <a href="agb.php">AGB</a>beide
         müssen akzeptiert werden um den vollen umfang unserer Dienste verwenden zu können. Wir Informieren sie
         bei Änderungen!</div>
       <div class="flex-user-form">
