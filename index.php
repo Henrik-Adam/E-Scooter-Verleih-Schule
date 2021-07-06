@@ -163,6 +163,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
     <?php
     if (isset($_SESSION['order_fail']) && $_SESSION['order_fail']) {
         echo ("<div class='error'>ERROR: Ihre Angaben waren fehlerhaft bitte probieren sie es erneut!</div>");
+        $_SESSION['order_fail'] = false;
     }
     if (isset($_SESSION['not_login']) && $_SESSION['not_login']) {
         echo ("<div class='warning'>Sie müssen sich <a href='php/login.php'>anmelden</a> um Reservieren zu können!</div>");
@@ -254,7 +255,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
                 <label for="res-day-start"><b>Reservierungszeitraum</b></label>
                 <div class="flex">
                     <input type="date" id="res-day-start" name="res-day-start" required>
-                    <p> bis zum </p>
+                    <p class="invisible"> bis zum </p>
                     <input type="date" id="res-day-end" name="res-day-end" required>
                 </div>
                 <div class="flex">

@@ -30,7 +30,7 @@ session_start();
     $cookieConfirm = testInput(isset($_POST["cookieConfirm"]));
     $userPwd = testInput($_POST["password"]);
     $userConfirmedPwd = testInput($_POST["confirmedPassword"]);
-    $adultConform = $_POST["cookie_confirm"];
+    $adultConform = $_POST["adult_confirm"];
     if (!empty($userName) && strlen($userPwd) >= 6 && strlen($userConfirmedPwd) >= 6 && $userPwd === $userConfirmedPwd && $cookieConfirm === "1" && $adultConform >= 18) {
       userValidation($userName, $userEmail, $userPwd, $cookieConfirm);
     } elseif (strlen($userPwd) <= 5 && strlen($userConfirmedPwd) <= 5) {
