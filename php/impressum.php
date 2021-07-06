@@ -33,7 +33,7 @@ require('support_logic.php');
             <p>66655 Projekt</p>
         </div>
         <div class="info">Gratulation Sie wurden erfolgreich rickrolled!</div>
-        <iframe width="1000" height="450" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0"></iframe>
+        <iframe width="98%" height="450px" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0"></iframe>
     </div>
     <footer>
         <div class="flex-footer">

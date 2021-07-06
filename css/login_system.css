@@ -38,3 +38,18 @@ a {
 .nav-parent {
     position: relative;
 }
+
+@media screen and (max-width: 900px) {
+    .user-login-form {
+        width: 85%;
+    }
+    .flex-user-form {
+        flex-wrap: wrap;
+        margin-bottom: 2%;
+    }
+    .flex-user-form button,
+    .flex-user-form input {
+        margin-top: 1%;
+        width: 100%;
+    }
+}
