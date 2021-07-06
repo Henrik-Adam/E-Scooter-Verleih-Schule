@@ -124,7 +124,7 @@ require('support_logic.php');
       <input type="number" id="adult_confirm" name="adult_confirm" required>
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Confirmation</label>
-      <div class='info'>INFO! <a href="agb.php">AGB</a> muss muss akzeptiert werden!</div>
+      <div class='info'>INFO! <a href="agb.php">AGB</a> muss akzeptiert werden!</div>
       <div class="flex-user-form">
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">

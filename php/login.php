@@ -40,7 +40,7 @@ session_start();
     } elseif (empty($userName) && empty($userPwd)) {
       echo ("<div class='info'>INFO! Bitte Anmelden!</div>");
     } elseif ($cookieConfirm != "1") {
-      echo ("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
+      echo ("<div class='warning'>WARNING! Die AGBs müssen akzeptiert werden!</div>");
     } else echo ("<div class='error'>ERROR! Keine gültige Dateneingabe!</div>");
   } else echo ("<div class='info'>INFO! Bitte Anmelden!</div>");
 
