@@ -5,13 +5,13 @@ session_start();
 <html>
 
 <head>
-  <link rel="stylesheet" href="../../css/global.css">
-  <link rel="stylesheet" href="../../css/nav.css">
-  <link rel="stylesheet" href="../../css/modal.css">
-  <link rel="stylesheet" href="../../css/account.css">
-  <link rel="stylesheet" href="../../css/notifications.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="../css/account.css">
+  <link rel="stylesheet" href="../css/notifications.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Account</title>
 </head>
 <?php
@@ -19,7 +19,7 @@ require('support_logic.php');
 $userId = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id'])) {
-  header("Location: ./login.php");
+  header("Location: login.php");
 } else $userId = $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function getReservationData($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
 
   if (array_key_exists("postal-road", $_POST)) {
     $postalRoad = testInput($_POST["postal-road"]);
@@ -52,7 +52,7 @@ function getReservationData($userId)
 
 function getUserOrders($userId)
 {
-  $fileOrder = "../../file_save/order-data.json";
+  $fileOrder = "../file_save/order-data.json";
   $jsonArr = getAllOrderData($fileOrder, $userId);
   $orderDataArr = [];
   if ($jsonArr != 0) {
@@ -67,7 +67,7 @@ function getUserOrders($userId)
 
 function createAccountOverview($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
     echo '<p><strong>Name: </strong>' . $userDataArr['user_name'] . '</p>';
@@ -78,7 +78,7 @@ function createAccountOverview($userId)
 
 function createAddressOverview($userId)
 {
-  $file = "../../file_save/user-data.json";
+  $file = "../file_save/user-data.json";
   $userDataArr = getUserData($file, $userId);
   if (isset($userDataArr)) {
     if (array_key_exists("user_road", $userDataArr["user_address"])) {
@@ -104,7 +104,7 @@ function createTable($userId)
     echo '<div class="table-reservation">';
     echo '<table class="reservation"><tr><th>Order</th><th>E-Scooter</th><th>Zeitraum</th><th>Datum</th><th>Status</th></tr>';
     foreach ($userOrderDataArr as $row) {
-      echo "<tr><td>" . $row['order_id'] . "</td><td>" . escooterType(decrypt($row['scooter_type'])) . "</td><td>" . convertReversedDate($row['res_start']) . " bis " . convertReversedDate($row['res_end']) . "</td><td>" . $row['time'] . "</td>" . ifTimeEx($row['res_end']) . "</tr>";
+      echo "<tr><td>" . $row['order_id'] . "</td><td>" . escooterType(decrypt($row['scooter_type'])) . "</td><td>" . convertReversedDate($row['res_start']) . " bis " . convertReversedDate($row['res_end']) . "</td><td>" . $row['time'] . "</td>" . timeStatus($row['res_start'], $row['res_end']) . "</tr>";
     }
     echo "</table>";
     echo "</div>";
@@ -121,8 +121,8 @@ function createTable($userId)
 <body>
   <div class="nav-parent">
     <div class="nav">
-      <a href="../../index.php">Home</a>
-      <a href="./account.php" class="active">Account</a>
+      <a href="../index.php">Home</a>
+      <a href="account.php" class="active">Account</a>
     </div>
   </div>
   <div class="account-overview">
@@ -192,15 +192,15 @@ function createTable($userId)
   <footer>
     <div class="flex-footer">
       <div>
-        <a href="./impressum.php">Impressum</a>
+        <a href="impressum.php">Impressum</a>
         <a href="#search">Datenschutz</a>
         <a href="#search">AGB</a>
         <a href="#search">Support</a>
-        <a href="./logout.php">Logout</a>
+        <a href="logout.php">Logout</a>
       </div>
     </div>
   </footer>
-  <script src="./js/modal_forms.js"></script>
+  <script src="js/modal_forms.js"></script>
 </body>
 
 </html>

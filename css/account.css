@@ -15,8 +15,7 @@
 }
 
 .reservation th {
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding: 10px 16px;
     text-align: left;
     background-color: navy;
     color: white;
@@ -40,6 +39,13 @@ footer {
 .running {
     color: #4f8a10;
     background-color: #DFF2BF;
+    text-align: center;
+    font-weight: bold;
+}
+
+.planned {
+    color: #9F6000;
+    background-color: #FEEFB3;
     text-align: center;
     font-weight: bold;
 }
@@ -72,5 +78,14 @@ footer {
 @media screen and (max-width: 850px) {
     .reservation {
         font-size: 2.1vw;
+    }
+}
+
+@media print {
+    .button,
+    button,
+    footer,
+    .nav-parent {
+        display: none;
     }
 }

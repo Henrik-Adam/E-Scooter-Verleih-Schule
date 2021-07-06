@@ -85,3 +85,9 @@ input[type=password]:focus {
 * {
     box-sizing: border-box;
 }
+
+@media screen and (max-width: 800px) {
+    .invisible {
+        display: none;
+    }
+}
