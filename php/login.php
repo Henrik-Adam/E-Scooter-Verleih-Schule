@@ -15,10 +15,19 @@ session_start();
 </head>
 
 <body>
-
   <?php
   error_reporting(0);
   require('support_logic.php');
+  ?>
+
+  <div class="nav-parent" style="position: relative">
+    <div class="nav">
+      <a href="../index.php">Home</a>
+      <a href="account.php"><?php echo ($navIf) ?></a>
+    </div>
+  </div>
+
+  <?php
 
   $userName = $userPwd = "";
 
@@ -31,7 +40,7 @@ session_start();
     } elseif (empty($userName) && empty($userPwd)) {
       echo ("<div class='info'>INFO! Bitte Anmelden!</div>");
     } elseif ($cookieConfirm != "1") {
-      echo ("<div class='warning'>WARNING! The Cookie & AGB checkboxed must be checked for register!</div>");
+      echo ("<div class='warning'>WARNING! Die AGBs müssen akzeptiert werden!</div>");
     } else echo ("<div class='error'>ERROR! Keine gültige Dateneingabe!</div>");
   } else echo ("<div class='info'>INFO! Bitte Anmelden!</div>");
 
@@ -82,12 +91,6 @@ session_start();
     fclose($file);
   }
   ?>
-  <div class="nav-parent" style="position: relative">
-    <div class="nav">
-      <a href="../index.php">Home</a>
-      <a href="account.php"><?php echo ($navIf) ?></a>
-    </div>
-  </div>
   <div class="user-login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <label for="user_name">Name</label>
@@ -96,9 +99,7 @@ session_start();
       <input type="password" id="user_pwd" name="password" placeholder="Your password">
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Bestätigung</label>
-      <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Informationen</a> beide
-        müssen akzeptiert werden um den vollen umfang unserer Dienste verwenden zu können. Wir Informieren sie
-        bei Änderungen!</div>
+      <div class='info'>INFO! <a href="agb.php">AGB</a> muss akzeptiert werden um den vollen umfang unserer Dienste verwenden zu können. Wir Informieren sie bei Änderungen!</div>
       <div class="flex-user-form">
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
@@ -110,9 +111,8 @@ session_start();
     <div class="flex-footer">
       <div>
         <a href="impressum.php">Impressum</a>
-        <a href="#search">Datenschutz</a>
-        <a href="#search">AGB</a>
-        <a href="#search">Support</a>
+        <a href="datenschutz.php">Datenschutz</a>
+        <a href="agb.php">AGB</a>
         <a href="logout.php"><?php echo ($logoutIf) ?></a>
       </div>
     </div>

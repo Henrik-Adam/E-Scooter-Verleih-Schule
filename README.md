@@ -3,6 +3,8 @@
 Mitarbeiter: Julius Drück und Henrik Adam
 Hauptprojekt-Zeitraum: 22.06-06.07.2021
 
+Test-User: Test Doe
+
 # Test-Cases / Scenarios
 
 Lehrer-Scenarios

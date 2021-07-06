@@ -17,10 +17,17 @@ session_start();
 </head>
 
 <body>
+<?php
 
+require('support_logic.php');
+?>
+  <div class="nav-parent">
+    <div class="nav">
+      <a href="../index.php">Home</a>
+      <a href="account.php"><?php echo ($navIf) ?></a>
+    </div>
+  </div>
   <?php
-
-  require('support_logic.php');
 
   $userName = $userEmail = $userPwd = $userConfirmedPwd = "";
 
@@ -103,13 +110,6 @@ session_start();
     fclose($log_file_reg);
   }
   ?>
-  <div class="nav-parent">
-    <div class="nav">
-      <a href="../index.php">Home</a>
-      <a href="account.php"><?php echo($navIf) ?></a>
-    </div>
-  </div>
-
   <div class="user-login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <label for="user_name">Name</label>
@@ -124,7 +124,7 @@ session_start();
       <input type="number" id="adult_confirm" name="adult_confirm" required>
       <input type="checkbox" id="cookie_confirm" name="cookieConfirm" value="agb">
       <label for="cookie_confirm">AGB & Cookie Confirmation</label>
-      <div class='info'>INFO! <a href="agb.php">AGB</a> & <a href="cookie.php">Cookie Information</a> beides muss akzeptiert werden!</div>
+      <div class='info'>INFO! <a href="agb.php">AGB</a> muss akzeptiert werden!</div>
       <div class="flex-user-form">
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
@@ -136,9 +136,8 @@ session_start();
     <div class="flex-footer">
       <div>
         <a href="impressum.php">Impressum</a>
-        <a href="#search">Datenschutz</a>
-        <a href="#search">AGB</a>
-        <a href="#search">Support</a>
+        <a href="datenschutz.php">Datenschutz</a>
+        <a href="agb.php">AGB</a>
         <a href="logout.php"><?php echo($logoutIf)?></a>
       </div>
     </div>

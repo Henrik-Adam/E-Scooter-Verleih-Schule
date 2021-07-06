@@ -33,20 +33,18 @@ require('support_logic.php');
             <p>66655 Projekt</p>
         </div>
         <div class="info">Gratulation Sie wurden erfolgreich rickrolled!</div>
-        <iframe width="1000" height="450" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0"></iframe>
+        <iframe width="98%" height="700px" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0"></iframe>
     </div>
     <footer>
         <div class="flex-footer">
             <div>
                 <a href="impressum.php">Impressum</a>
-                <a href="#search">Datenschutz</a>
-                <a href="#search">AGB</a>
-                <a href="#search">Support</a>
+                <a href="datenschutz.php">Datenschutz</a>
+                <a href="agb.php">AGB</a>
                 <a href="logout.php"><?php echo($logoutIf)?></a>
             </div>
         </div>
     </footer>
-    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>
