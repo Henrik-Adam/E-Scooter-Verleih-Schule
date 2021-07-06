@@ -110,9 +110,9 @@ session_start();
     <div class="flex-footer">
       <div>
         <a href="impressum.php">Impressum</a>
-        <a href="#search">Datenschutz</a>
-        <a href="#search">AGB</a>
-        <a href="#search">Support</a>
+        <a href="datenschutz.php">Datenschutz</a>
+        <a href="agb.php">AGB</a>
+        <a href="support.php">Support</a>
         <a href="logout.php"><?php echo ($logoutIf) ?></a>
       </div>
     </div>
