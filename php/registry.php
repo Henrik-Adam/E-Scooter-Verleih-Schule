@@ -77,7 +77,7 @@ session_start();
         header("Location: login.php");
       } else {
         echo "<div class='error'>Error: " . json_last_error_msg() . "</div>";
-        logRegFail($userName, json_last_error_msg());
+        logging($userName, "../logs/systemlog.txt", json_last_error_msg());
       }
     } else {
       echo "<div class='error'>User already exist!</div>";
@@ -92,24 +92,13 @@ session_start();
     return $cryptKey;
   }
 
-  function logRegFail($userName, $error)
-  {
-    $date = date("d.m.Y");
-    $time = date("h:i:sa");
-    $log_file_reg = fopen("../logs/log_reg_fail.txt", "a+");
-    $log_msg = "User: %s,Date: %s,Time: %s,  %s\n";
-    $log_msg = sprintf($log_msg, $userName, $date, $time, $error);
-    fwrite($log_file_reg, $log_msg);
-    fclose($log_file_reg);
-  }
-
   function logReg($userName)
   {
     $date = date("d.m.Y");
     $time = date("h:i:sa");
     $log_file_reg = fopen("../logs/log_reg.txt", "a+");
-    $log_msg = "User: %s,Date: %s,Time: %s\n";
-    $log_msg = sprintf($log_msg, $userName, $date, $time);
+    $log_msg = "(%s %s): %s\n";
+    $log_msg = sprintf($log_msg, $date, $time, $userName);
     fwrite($log_file_reg, $log_msg);
     fclose($log_file_reg);
   }

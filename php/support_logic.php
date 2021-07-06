@@ -125,6 +125,17 @@ function timeStatus($timeStart, $timeEnd) {
   }
 }
 
+// logging
+
+function logging($userName, $file, $error)  {
+  $date = date("d.m.Y");
+  $time = date("h:i:sa");
+  $log_msg = "(%s %s)%s: %s\n";
+  $log_msg = sprintf($log_msg, $date, $time, $userName, $error);
+  fwrite($file, $log_msg);
+  fclose($file);
+}
+
 if (isset($_SESSION['user_id'])) {
   $userId = $_SESSION['user_id'];
 } else $userId = 0;

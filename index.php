@@ -16,6 +16,7 @@ session_start();
     <title>Home</title>
 </head>
 <?php
+error_reporting(0);
 
 require('php/support_logic.php');
 
@@ -76,7 +77,7 @@ function getReservationData($userId)
 
 function getFileHeader()
 {
-    $imgArr = glob("img/products/*.jpg");
+    $imgArr = glob("img/products/*.jpg"); // img/products/<nr>_<title>.jpg
     for ($i = 1; $i <= count(glob("img/products/*.jpg")); $i++) {
         $search = "img/products/" . $i . "_";
         $imgArr[$i - 1] = str_replace($search, "", $imgArr[$i - 1]);
@@ -87,7 +88,7 @@ function getFileHeader()
 
 function getFileName()
 {
-    $imgArr = glob("img/products/*.jpg");
+    $imgArr = glob("img/products/*.jpg"); // img/products/<nr>_<title>.jpg
     return $imgArr;
 }
 
