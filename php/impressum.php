@@ -5,12 +5,12 @@ session_start();
 <html>
 
 <head>
-    <link rel="stylesheet" href="../../css/global.css">
-    <link rel="stylesheet" href="../../css/nav.css">
-    <link rel="stylesheet" href="../../css/others.css">
-    <link rel="stylesheet" href="../../css/notifications.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/others.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Impressum</title>
 </head>
 <?php
@@ -20,8 +20,8 @@ require('support_logic.php');
 <body>
     <div class="nav-parent">
         <div class="nav">
-            <a href="../../index.php">Home</a>
-            <a href="./account.php">Account</a>
+            <a href="../index.php">Home</a>
+            <a href="account.php"><?php echo($navIf) ?></a>
         </div>
     </div>
     <div class="impressum"> 
@@ -38,15 +38,15 @@ require('support_logic.php');
     <footer>
         <div class="flex-footer">
             <div>
-                <a href="./impressum.php">Impressum</a>
+                <a href="impressum.php">Impressum</a>
                 <a href="#search">Datenschutz</a>
                 <a href="#search">AGB</a>
                 <a href="#search">Support</a>
-                <a href="./logout.php">Logout</a>
+                <a href="logout.php"><?php echo($logoutIf)?></a>
             </div>
         </div>
     </footer>
-    <script src="./js/modal_forms.js"></script>
+    <script src="js/modal_forms.js"></script>
 </body>
 
 </html>

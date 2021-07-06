@@ -70,4 +70,7 @@ img {
     img {
         margin: auto;
     }
+    .info_container {
+        padding: 15px;
+    }
 }
