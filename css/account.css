@@ -15,8 +15,7 @@
 }
 
 .reservation th {
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding: 10px 16px;
     text-align: left;
     background-color: navy;
     color: white;

@@ -218,7 +218,7 @@ $userCity = isset($userData['user_address']['user_city']) ? decrypt($userData['u
         <span onclick="document.getElementById('modalForm').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="container">
-                <h1>Reserveriungsformular</h1>
+                <h1>Reservierungsformular</h1>
                 <?php
                 if ($userId == 0) {
                     echo ("<div class='warning'>Bitte melden sie sich an um Reservieren zu können!</div>");
