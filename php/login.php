@@ -15,10 +15,19 @@ session_start();
 </head>
 
 <body>
-
   <?php
   error_reporting(0);
   require('support_logic.php');
+  ?>
+
+  <div class="nav-parent" style="position: relative">
+    <div class="nav">
+      <a href="../index.php">Home</a>
+      <a href="account.php"><?php echo ($navIf) ?></a>
+    </div>
+  </div>
+
+  <?php
 
   $userName = $userPwd = "";
 
@@ -82,12 +91,6 @@ session_start();
     fclose($file);
   }
   ?>
-  <div class="nav-parent" style="position: relative">
-    <div class="nav">
-      <a href="../index.php">Home</a>
-      <a href="account.php"><?php echo ($navIf) ?></a>
-    </div>
-  </div>
   <div class="user-login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <label for="user_name">Name</label>

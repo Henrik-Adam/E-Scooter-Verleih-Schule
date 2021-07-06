@@ -17,10 +17,17 @@ session_start();
 </head>
 
 <body>
+<?php
 
+require('support_logic.php');
+?>
+  <div class="nav-parent">
+    <div class="nav">
+      <a href="../index.php">Home</a>
+      <a href="account.php"><?php echo ($navIf) ?></a>
+    </div>
+  </div>
   <?php
-
-  require('support_logic.php');
 
   $userName = $userEmail = $userPwd = $userConfirmedPwd = "";
 
@@ -103,13 +110,6 @@ session_start();
     fclose($log_file_reg);
   }
   ?>
-  <div class="nav-parent">
-    <div class="nav">
-      <a href="../index.php">Home</a>
-      <a href="account.php"><?php echo($navIf) ?></a>
-    </div>
-  </div>
-
   <div class="user-login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <label for="user_name">Name</label>
@@ -139,7 +139,7 @@ session_start();
         <a href="#search">Datenschutz</a>
         <a href="#search">AGB</a>
         <a href="#search">Support</a>
-        <a href="logout.php"><?php echo($logoutIf)?></a>
+        <a href="logout.php"><?php echo ($logoutIf) ?></a>
       </div>
     </div>
   </footer>
